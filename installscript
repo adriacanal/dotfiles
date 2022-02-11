@@ -17,18 +17,8 @@ git config --global core.excludesfile $HOME/.global-gitignore
 rm $HOME/.zshrc
 ln -s $HOME/.dotfiles/shell/.zshrc $HOME/.zshrc
 
-# Symlink vim prefs
-rm $HOME/.vimrc
-ln -s $HOME/.dotfiles/shell/.vimrc $HOME/.vimrc
-rm $HOME/.vim
-ln -s $HOME/.dotfiles/shell/.vim $HOME/.vim
-
 # Symlink the Mackup config
 ln -s $HOME/.dotfiles/macos/.mackup.cfg $HOME/.mackup.cfg
-
-# Fix missing font characters (see https://github.com/robbyrussell/oh-my-zsh/issues/1906)
-cd ~/.oh-my-zsh/themes/
-git checkout d6a36b1 agnoster.zsh-theme
 
 # Activate z
 cd ~/.dotfiles/shell
@@ -80,6 +70,20 @@ echo 'Install doctl'
 echo '-------------'
 brew install doctl
 
+echo 'Install pip'
+echo '-----------'
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
+rm get-pip.py
+
+echo 'Install Powerline and necessary fonts'
+echo '-------------------------------------'
+pip3 install --user powerline-status
+git clone https://github.com/powerline/fonts
+cd fonts
+./install.sh
+cd ..
+rm -rf fonts
 
 echo 'Install some nice quicklook plugins'
 echo '-----------------------------------'
@@ -164,9 +168,11 @@ brew install zsh-autosuggestions
 echo '++++++++++++++++++++++++++++++'
 echo '++++++++++++++++++++++++++++++'
 echo 'All done!'
-echo 'Things to do to make the agnoster terminal theme work:'
-echo '1. Install menlo patched font included in ~/.dotfiles/misc https://gist.github.com/qrush/1595572/raw/Menlo-Powerline.otf'
-echo '2. Install patched solarized theme included in ~/.dotfiles/misc'
+echo 'Things to do to make the cobalt2 terminal theme work:'
+echo '1. In iTerm2 access the Preferences pane on the Profiles tab.'
+echo '2. Under the Colors tab import the cobalt2.itermcolors file included in ~/.dotfiles/misc via the Load Presets drop-down.'
+echo '3. Under the Text tab change the font for each type (Regular and Non-ASCII) to `Inconsolata for Powerline`'
+echo '4. Refresh ZSH by typing `source ~/.zshrc` on the command line.'
 
 echo '++++++++++++++++++++++++++++++'
 echo 'Some optional tidbits'
