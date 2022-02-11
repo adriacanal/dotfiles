@@ -9,7 +9,7 @@ alias cr="composer require"
 alias ci="composer install"
 alias cda="composer dump-autoload -o"
 alias larastan="vendor/bin/phpstan analyse"
-alias hostfile="sudo vi /etc/hosts"
+alias hostfile="sudo nano /etc/hosts"
 alias deploy='envoy run deploy'
 alias deploy-code='envoy run deploy-code'
 alias mfs='php artisan migrate:fresh --seed'
@@ -17,10 +17,10 @@ alias nah='git reset --hard;git clean -df'
 
 alias pp="php artisan test --parallel"
 alias d="php artisan dusk"
-alias sshconfig="vi ~/.ssh/config"
+alias sshconfig="nano ~/.ssh/config"
 alias copykey='command cat ~/.ssh/id_rsa.public | pbcopy'
 alias sail='./vendor/bin/sail'
-alias tunnel='valet share -subdomain=freekmurze -region=eu'
+alias tunnel='valet share -subdomain=adriacanal -region=eu'
 
 # JavaScript
 alias jest="./node_modules/.bin/jest"
@@ -38,7 +38,7 @@ alias o="open ."
 alias l="ls -laF"
 
 # PhpStorm
-alias phpstorm='open -a /Applications/PhpStorm.app "`pwd`"'
+alias pstorm='open -a /Applications/PhpStorm.app "`pwd`"'
 
 # PHP
 alias switch-php80="brew unlink php@7.4 && brew link --overwrite --force php"
@@ -70,13 +70,6 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
-
-# Scape webpage
-alias scrape="scrapeUrl"
-
-# Switch NPM
-alias npmnpm="npm config set registry https://registry.npmjs.org"
-alias npmspatie="npm config set registry https://npm.spatie.be"
 
 # Restart touch bar
 alias touchbar="killall ControlStrip"
