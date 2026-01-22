@@ -2,6 +2,15 @@
 
 Personal dotfiles with modern shell tooling, optimized for Laravel/PHP development. Features fast startup times, smart directory navigation, and modern CLI tools.
 
+## Key Features
+
+- **Custom Agnoster Theme** - Clean powerline prompt with no branch symbols, `•` for changes
+- **Version-Controlled Skills** - All Claude Code skills synced via dotfiles
+- **Fast Tools** - fnm, zoxide, ripgrep, bat, eza (all Rust-based for speed)
+- **No Compilation** - PHP via Homebrew, no more building from source
+- **Nerd Fonts** - Installed automatically via Brewfile for perfect icon support
+- **One Command Install** - `bin/install` sets up everything including Claude Code
+
 ---
 
 ## Quick Start
@@ -61,11 +70,15 @@ The installation creates symlinks from your home directory to the dotfiles repos
 
 | Symlink Location | Points To | Purpose |
 |-----------------|-----------|---------|
-| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with agnoster theme) |
+| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with custom agnoster theme) |
 | `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
 | `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
 | `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
 | `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
+| `~/.claude/skills` | `~/.dotfiles/config/claude/skills/` | All Claude Code skills (version-controlled) |
+| `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
+| `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
+| `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
 
 ### Sourced Files
 
@@ -74,6 +87,22 @@ These files are loaded by `.zshrc` but remain in the dotfiles directory:
 - `home/.aliases` - Shell command aliases
 - `home/.functions` - Custom shell functions
 - `home/.exports` - Environment variables
+
+### Custom Agnoster Theme
+
+The default configuration uses a customized agnoster theme stored in `oh-my-zsh-custom/themes/agnoster.zsh-theme`:
+
+**Customizations:**
+- No git branch symbol (cleaner look)
+- Uses `•` for unstaged changes instead of `±`
+- Powerline arrows for segment separators
+- Requires Nerd Font with powerline glyphs
+
+**Git Status Symbols:**
+- `✚` - Staged changes (files added with `git add`)
+- `•` - Unstaged changes (modified files not yet staged)
+- Yellow background - Uncommitted changes
+- Green background - Clean working directory
 
 ### Alternative Configuration
 
@@ -151,6 +180,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 
 - **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
 - **Modern CLI**: starship, zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, zsh-autosuggestions
+- **Fonts**: font-meslo-lg-nerd-font (powerline icons and modern glyphs)
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
 - **Global npm**: aicommits, agent-browser
@@ -168,32 +198,49 @@ Install just Claude Code without the full dotfiles:
 curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/install-claude-code | bash
 ```
 
-### What Gets Installed
+### What's Included
 
-- Claude Code CLI
-- Custom configuration (CLAUDE.md, laravel-php-guidelines.md)
-- Custom skills (ray-skill, fix-github-issue, convert-issue-to-discussion)
-- Community skills (web design, React, React Native, marketing)
+- **Claude Code CLI** - Installed via Homebrew
+- **Custom configuration** - CLAUDE.md with coding guidelines, laravel-php-guidelines.md
+- **Version-controlled skills** - Entire `~/.claude/skills` directory symlinked to dotfiles
 
-### Pre-installed Agent Skills
+### Skills (Version Controlled)
 
-**Development & Design:**
+All skills are stored in `config/claude/skills/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all skills are immediately available.
+
+**Custom Skills:**
+- `ray-skill` - Ray debugging integration
+- `fix-github-issue` - GitHub issue automation
+- `convert-issue-to-discussion` - GitHub workflow helpers
+
+**Community Skills:**
 - `vercel-labs/agent-skills` - Web design guidelines and React best practices
 - `anthropics/skills` - Frontend design and skill creation tools
 - `vercel-labs/agent-browser` - Browser automation
-
-**Mobile Development:**
 - `expo/skills` - React Native with Expo
 - `callstackincubator/agent-skills` - React Native performance
-
-**Marketing:**
 - `coreyhaines31/marketingskills` - Copywriting and programmatic SEO
+- `copy-editing` - Marketing copy editing
+- `copywriting` - Marketing copywriting
+- `frontend-design` - Frontend design patterns
+- `pdf` - PDF manipulation
+- `seo-audit` - SEO auditing
+- `web-design-guidelines` - Web design best practices
 
-Browse more at [skills.sh](https://skills.sh):
+### Adding New Skills
 
 ```bash
+# Install a new skill (adds directly to your dotfiles)
 npx skills add <owner/repo>
+
+# Commit to version control
+cd ~/.dotfiles
+git add config/claude/skills/
+git commit -m "Add new skill"
+git push
 ```
+
+Browse more skills at [skills.sh](https://skills.sh)
 
 ---
 
@@ -273,6 +320,15 @@ fnm current
 fnm list
 ```
 
+### Powerline Arrows Not Showing
+
+If you see broken characters instead of arrows:
+
+1. Install Nerd Font: `brew install --cask font-meslo-lg-nerd-font`
+2. In iTerm2: Preferences → Profiles → Text
+3. Set Font to **MesloLGM Nerd Font Mono**
+4. Enable "Use built-in Powerline glyphs"
+
 ---
 
 ## Tool Comparisons
@@ -306,8 +362,13 @@ The `bin/` directory contains helper scripts:
 If upgrading from an older setup:
 
 1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
-2. **Prompt**: The default config uses Oh My Zsh with agnoster theme. For a faster alternative, use `home/.zshrc.starship`
-3. **Version managers**: fnm replaces nvm, Homebrew manages PHP (no more compilation)
+2. **Prompt**: The default is now Oh My Zsh with custom agnoster theme. For faster startup, use `home/.zshrc.starship`
+3. **Version managers**:
+   - fnm replaces nvm for Node.js
+   - Homebrew manages PHP/Composer (no more compilation or mise)
+4. **Fonts**: Meslo Nerd Font replaces Menlo Powerline (installed via Brewfile)
+5. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
+6. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
 
 ---
 

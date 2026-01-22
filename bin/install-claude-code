@@ -51,23 +51,16 @@ fi
 # Claude configuration
 if [ -d "$DOTFILES_DIR/config/claude" ]; then
     step "Setting up Claude Code configuration"
-    mkdir -p ~/.claude/skills
+    mkdir -p ~/.claude
 
     # Symlink configuration files
     ln -sf "$DOTFILES_DIR/config/claude/CLAUDE.md" ~/.claude/CLAUDE.md
     ln -sf "$DOTFILES_DIR/config/claude/laravel-php-guidelines.md" ~/.claude/laravel-php-guidelines.md
     ln -sf "$DOTFILES_DIR/config/claude/settings.json" ~/.claude/settings.json
 
-    # Symlink custom skills if they exist
-    if [ -d "$DOTFILES_DIR/config/claude/skills/convert-issue-to-discussion" ]; then
-        ln -sf "$DOTFILES_DIR/config/claude/skills/convert-issue-to-discussion" ~/.claude/skills/convert-issue-to-discussion
-    fi
-    if [ -d "$DOTFILES_DIR/config/claude/skills/fix-github-issue" ]; then
-        ln -sf "$DOTFILES_DIR/config/claude/skills/fix-github-issue" ~/.claude/skills/fix-github-issue
-    fi
-    if [ -d "$DOTFILES_DIR/config/claude/skills/ray-skill" ]; then
-        ln -sf "$DOTFILES_DIR/config/claude/skills/ray-skill" ~/.claude/skills/ray-skill
-    fi
+    # Symlink entire skills directory
+    rm -rf ~/.claude/skills
+    ln -sf "$DOTFILES_DIR/config/claude/skills" ~/.claude/skills
 
     success "Claude Code configured"
 else
@@ -75,22 +68,9 @@ else
     echo "  To set up configuration later, clone dotfiles to ~/.dotfiles"
 fi
 
-# Agent Skills
-step "Installing agent skills"
-
-# Check if Node.js is available
-if ! command -v npx &>/dev/null; then
-    warn "Node.js/npx not found, skipping agent skills"
-    echo "  Install Node.js to add community skills"
-else
-    npx -y skills add vercel-labs/agent-skills || warn "vercel-labs/agent-skills already installed or failed"
-    npx -y skills add anthropics/skills || warn "anthropics/skills already installed or failed"
-    npx -y skills add expo/skills || warn "expo/skills already installed or failed"
-    npx -y skills add vercel-labs/agent-browser || warn "vercel-labs/agent-browser already installed or failed"
-    npx -y skills add coreyhaines31/marketingskills || warn "coreyhaines31/marketingskills already installed or failed"
-    npx -y skills add callstackincubator/agent-skills || warn "callstackincubator/agent-skills already installed or failed"
-    success "Agent skills processed"
-fi
+# Agent Skills (included in dotfiles)
+# All skills are version-controlled in config/claude/skills/
+# No need to install them - they're symlinked from the dotfiles repo
 
 # Done
 echo ""
