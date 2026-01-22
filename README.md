@@ -23,12 +23,6 @@ cd ~/.dotfiles
 bin/install
 ```
 
-After installation, verify everything works:
-
-```bash
-bin/doctor    # Health check and diagnostics
-```
-
 ---
 
 ## What's Included
@@ -36,7 +30,6 @@ bin/doctor    # Health check and diagnostics
 ### Shell & Prompt
 
 - **Oh My Zsh** - Framework for managing Zsh configuration (with agnoster theme by default)
-- **Starship** - Fast alternative prompt (optional, 4x faster startup)
 - **zoxide** - Smart directory jumping based on frecency
 - **fzf** - Fuzzy finder for files and history
 - **direnv** - Automatic environment variables per directory
@@ -107,15 +100,6 @@ The default configuration uses a customized agnoster theme stored in `oh-my-zsh-
 - Yellow background - Uncommitted changes
 - Green background - Clean working directory
 
-### Alternative Configuration
-
-A faster alternative using Starship prompt is available at `home/.zshrc.starship` (~50ms startup vs ~200ms for the default Oh My Zsh config). To switch:
-
-```bash
-ln -sf ~/.dotfiles/home/.zshrc.starship ~/.zshrc
-exec zsh
-```
-
 ---
 
 ## Daily Usage
@@ -144,7 +128,6 @@ nah                 # git reset --hard; git clean -df
 
 ```bash
 bin/update          # Update all packages and tools
-bin/doctor          # Verify installation health
 ```
 
 ---
@@ -182,7 +165,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 **Complete package list:**
 
 - **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
-- **Modern CLI**: starship, zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, zsh-autosuggestions
+- **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, zsh-autosuggestions
 - **Fonts**: font-meslo-lg-nerd-font (powerline icons and modern glyphs)
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
@@ -305,7 +288,6 @@ Variables load when you enter the directory and unload when you leave.
 
 | Old Tool | New Tool | Why Better |
 |----------|----------|------------|
-| Oh My Zsh themes | Starship | 10x faster, cross-shell compatible |
 | z.sh / autojump | zoxide | Smarter frecency algorithm, Rust speed |
 | nvm | fnm | 40x faster, simpler, Rust-based |
 | cat | bat | Syntax highlighting, git integration |
@@ -332,7 +314,7 @@ The `bin/` directory contains helper scripts:
 If upgrading from an older setup:
 
 1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
-2. **Prompt**: The default is now Oh My Zsh with custom agnoster theme. For faster startup, use `home/.zshrc.starship`
+2. **Prompt**: The default is now Oh My Zsh with custom agnoster theme
 3. **Version managers**:
    - fnm replaces nvm for Node.js
    - Homebrew manages PHP/Composer (no more compilation or mise)
