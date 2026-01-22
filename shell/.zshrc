@@ -103,6 +103,10 @@ eval "$(fnm env --use-on-cd)"
 # do not update all homebrew stuff automatically
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-export PATH=/Users/Shared/DBngin/postgresql/17.0/bin:$PATH
+#export PATH=/Users/Shared/DBngin/postgresql/17.0/bin:$PATH
 
 export PATH=$HOME/bin:~/.config/phpmon/bin:$PATH
+export JAVA_HOME="$(brew --prefix)/opt/openjdk@17"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
