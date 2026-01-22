@@ -35,28 +35,28 @@ bin/doctor    # Health check and diagnostics
 
 ### Shell & Prompt
 
-**Oh My Zsh** - Framework for managing Zsh configuration (with agnoster theme by default)
-**Starship** - Fast alternative prompt (optional, 4x faster startup)
-**zoxide** - Smart directory jumping based on frecency
-**fzf** - Fuzzy finder for files and history
-**direnv** - Automatic environment variables per directory
+- **Oh My Zsh** - Framework for managing Zsh configuration (with agnoster theme by default)
+- **Starship** - Fast alternative prompt (optional, 4x faster startup)
+- **zoxide** - Smart directory jumping based on frecency
+- **fzf** - Fuzzy finder for files and history
+- **direnv** - Automatic environment variables per directory
 
 ### Modern CLI Tools
 
-**fnm** - Fast Node.js version manager
-**bat** - Cat with syntax highlighting
-**eza** - Modern ls replacement with icons
-**ripgrep** - Fast grep alternative
-**fd** - Fast find alternative
-**git-delta** - Better git diffs
+- **fnm** - Fast Node.js version manager
+- **bat** - Cat with syntax highlighting
+- **eza** - Modern ls replacement with icons
+- **ripgrep** - Fast grep alternative
+- **fd** - Fast find alternative
+- **git-delta** - Better git diffs
 
 ### Development Tools
 
-**PHP** - Latest version via Homebrew
-**Composer** - Dependency manager via Homebrew
-**Node.js** - LTS version managed via fnm
-**Laravel Valet** - Local development server
-**MySQL** - Database with auto-start
+- **PHP** - Latest version via Homebrew
+- **Composer** - Dependency manager via Homebrew
+- **Node.js** - LTS version managed via fnm
+- **Laravel Valet** - Local development server
+- **MySQL** - Database with auto-start
 
 ### QuickLook Plugins
 
