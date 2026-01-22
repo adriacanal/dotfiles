@@ -115,7 +115,14 @@ brew services start mysql || warn "MySQL already running or failed"
 success "MySQL processed"
 
 # Claude Code setup
-bash ~/.dotfiles/bin/install-claude-code || warn "Claude Code setup had issues"
+echo ""
+read -p "Install Claude Code? (y/n) " -n 1 -r
+echo ""
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    bash ~/.dotfiles/bin/install-claude-code || warn "Claude Code setup had issues"
+else
+    warn "Skipping Claude Code installation"
+fi
 
 # Done
 echo ""
