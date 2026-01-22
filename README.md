@@ -1,6 +1,8 @@
 # Modern Dotfiles
 
-Personal dotfiles with modern shell tooling, optimized for Laravel/PHP development. Features fast startup times, smart directory navigation, and unified version management.
+Personal dotfiles with modern shell tooling, optimized for Laravel/PHP development. Features fast startup times, smart directory navigation, and modern CLI tools.
+
+---
 
 ## Quick Start
 
@@ -10,31 +12,13 @@ cd ~/.dotfiles
 bin/install
 ```
 
-After installation:
+After installation, verify everything works:
 
 ```bash
-bin/doctor                           # Verify installation
-migration/migrate-z-to-zoxide.sh    # Only if upgrading from old setup
+bin/doctor    # Health check and diagnostics
 ```
 
-## Claude Code Only
-
-If you only want Claude Code setup without the full dotfiles:
-
-```bash
-# Quick install (no dotfiles clone needed)
-curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/install-claude-code | bash
-
-# Or with dotfiles configuration
-git clone git@github.com:freekmurze/dotfiles.git ~/.dotfiles
-~/.dotfiles/bin/install-claude-code
-```
-
-This installs:
-- Claude Code CLI
-- Custom configuration (CLAUDE.md, laravel-php-guidelines.md)
-- Custom skills (ray-skill, fix-github-issue, convert-issue-to-discussion)
-- Community skills (web design, React, React Native, marketing)
+---
 
 ## What's Included
 
@@ -42,7 +26,7 @@ This installs:
 
 **Starship** - Fast, customizable prompt that replaces Oh My Zsh themes
 **zoxide** - Smart directory jumping based on frecency
-**mise** - Unified version management for Node, PHP, and Ruby
+**fnm** - Fast Node.js version manager
 **bat** - Cat with syntax highlighting
 **eza** - Modern ls replacement with icons
 **ripgrep** - Fast grep alternative
@@ -53,67 +37,49 @@ This installs:
 
 ### Development Tools
 
-**PHP** 8.4 managed via mise
-**Node.js** LTS managed via mise
-**Ruby** latest managed via mise
-**Composer** with global packages
-**Laravel Valet** for local development
-**MySQL** with auto-start
+**PHP** - Latest version via Homebrew
+**Composer** - Dependency manager via Homebrew
+**Node.js** - LTS version managed via fnm
+**Laravel Valet** - Local development server
+**MySQL** - Database with auto-start
 
-### Shell Configuration
+### QuickLook Plugins
 
-All aliases, functions, and environment variables are organized in the `home/` directory. Personal customizations go in `~/.dotfiles-custom/shell/` and won't be committed.
+Instant file previews in Finder: code files, markdown, JSON, CSV, patches, and archives.
 
-## Directory Structure
+---
 
-```
-~/.dotfiles/
-├── README.md          # This file
-├── .gitignore
-│
-├── bin/               # Executable scripts
-│   ├── install        # Main installer
-│   ├── install-claude-code  # Standalone Claude Code installer
-│   ├── update         # Update all packages and tools
-│   └── doctor         # Health check and diagnostics
-│
-├── home/              # Home directory files
-│   ├── .zshrc         # Zsh config (with Oh My Zsh) → symlinked to ~/
-│   ├── .zshrc.no-omz  # Alternative config (faster, no Oh My Zsh)
-│   ├── .aliases       # Command aliases (sourced by .zshrc)
-│   ├── .functions     # Shell functions (sourced by .zshrc)
-│   ├── .exports       # Environment variables (sourced by .zshrc)
-│   ├── .vimrc         # Vim config → symlinked to ~/
-│   ├── .vim/          # Vim runtime → symlinked to ~/
-│   └── .global-gitignore → symlinked to ~/
-│
-├── config/            # Application configurations
-│   ├── Brewfile       # Declarative package management
-│   ├── starship.toml  # Starship prompt config
-│   ├── .mise.toml     # Version manager config
-│   ├── claude/        # Claude Code configuration
-│   │   ├── CLAUDE.md
-│   │   ├── laravel-php-guidelines.md
-│   │   ├── settings.json
-│   │   └── skills/
-│   ├── fonts/         # Terminal fonts
-│   │   └── Menlo-Powerline.otf
-│   └── iterm/         # Terminal themes
-│       ├── photon-white.itermcolors
-│       ├── Solarized Dark Corrected.itermcolors
-│       └── Solarized Dark xterm-256color patched.terminal
-│
-├── macos/             # macOS-specific
-│   ├── .mackup.cfg
-│   └── set-defaults.sh
-│
-└── migration/         # One-time migration scripts
-    └── migrate-z-to-zoxide.sh
-```
+## How It Works
 
-## Usage
+### Symlinked Files
 
-### Daily Commands
+The installation creates symlinks from your home directory to the dotfiles repository. This allows you to version control your configuration while keeping files in their expected locations.
+
+| Symlink Location | Points To | Purpose |
+|-----------------|-----------|---------|
+| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (fast, native) |
+| `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
+| `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
+| `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
+| `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
+
+### Sourced Files
+
+These files are loaded by `.zshrc` but remain in the dotfiles directory:
+
+- `home/.aliases` - Shell command aliases
+- `home/.functions` - Custom shell functions
+- `home/.exports` - Environment variables
+
+### Alternative Configuration
+
+An alternative Zsh configuration with Oh My Zsh plugins is available at `home/.zshrc.with-omz` (~200ms startup vs ~50ms for the default native config).
+
+---
+
+## Daily Usage
+
+### Smart Navigation
 
 ```bash
 z dotfiles          # Jump to frequently used directories
@@ -123,7 +89,7 @@ Ctrl+T              # Fuzzy find files
 Alt+C               # Fuzzy change directory
 ```
 
-### Laravel/PHP Aliases
+### Laravel/PHP Shortcuts
 
 ```bash
 a                   # php artisan
@@ -133,82 +99,111 @@ mfs                 # php artisan migrate:fresh --seed
 nah                 # git reset --hard; git clean -df
 ```
 
-### Maintenance
+### Maintenance Commands
 
 ```bash
-bin/update                # Update dotfiles, Homebrew, mise, npm, composer
-bin/doctor                # Verify installation and check for issues
-bin/install-claude-code   # (Re)install or update Claude Code setup
+bin/update          # Update all packages and tools
+bin/doctor          # Verify installation health
 ```
 
-### Version Management
+---
 
-Change language versions:
+## Version Management
+
+### Node.js (via fnm)
 
 ```bash
-mise use node@20    # Switch to Node 20
-mise use php@8.3    # Switch to PHP 8.3
-mise current        # Show current versions
+fnm install --lts     # Install latest LTS
+fnm use lts-latest    # Use latest LTS
+fnm install 20        # Install specific version
+fnm use 20            # Switch to specific version
+fnm list              # Show installed versions
 ```
 
-## Performance Options
-
-### Default Configuration (with Oh My Zsh)
-
-The default configuration uses Oh My Zsh for compatibility and its large plugin ecosystem. Startup time is approximately 200ms.
-
-### Alternative: Without Oh My Zsh
-
-For faster shell startup (approximately 50ms), switch to the alternative configuration:
+### PHP & Composer (via Homebrew)
 
 ```bash
-ln -sf ~/.dotfiles/shell/.zshrc.no-omz ~/.zshrc
-exec zsh
+brew upgrade php      # Update PHP to latest
+brew upgrade composer # Update Composer
 ```
 
-This uses native Zsh features and maintains all your aliases and functions. Switch back anytime:
-
-```bash
-ln -sf ~/.dotfiles/shell/.zshrc ~/.zshrc
-exec zsh
-```
+---
 
 ## Package Management
-
-### Adding New Tools
 
 All Homebrew packages are declared in `config/Brewfile`. To add a new tool:
 
 ```bash
-echo 'brew "neovim"' >> config/Brewfile
+echo 'brew "neovim"' >> ~/.dotfiles/config/Brewfile
 brew bundle --file=~/.dotfiles/config/Brewfile
 ```
 
-### Managing Versions
+**Complete package list:**
 
-Language versions are configured in `config/.mise.toml`:
+- **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
+- **Modern CLI**: starship, zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, zsh-autosuggestions
+- **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
+- **PHP Extensions**: imagick, memcached, xdebug, redis
+- **Global npm**: aicommits, agent-browser
+- **Global Composer**: laravel/envoy, spatie/phpunit-watcher, laravel/valet
 
-```toml
-[tools]
-node = "lts"
-php = "8.4"
-ruby = "3.3"
+---
+
+## Claude Code Integration
+
+### Quick Install (Standalone)
+
+Install just Claude Code without the full dotfiles:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/install-claude-code | bash
 ```
+
+### What Gets Installed
+
+- Claude Code CLI
+- Custom configuration (CLAUDE.md, laravel-php-guidelines.md)
+- Custom skills (ray-skill, fix-github-issue, convert-issue-to-discussion)
+- Community skills (web design, React, React Native, marketing)
+
+### Pre-installed Agent Skills
+
+**Development & Design:**
+- `vercel-labs/agent-skills` - Web design guidelines and React best practices
+- `anthropics/skills` - Frontend design and skill creation tools
+- `vercel-labs/agent-browser` - Browser automation
+
+**Mobile Development:**
+- `expo/skills` - React Native with Expo
+- `callstackincubator/agent-skills` - React Native performance
+
+**Marketing:**
+- `coreyhaines31/marketingskills` - Copywriting and programmatic SEO
+
+Browse more at [skills.sh](https://skills.sh):
+
+```bash
+npx skills add <owner/repo>
+```
+
+---
 
 ## Customization
 
-### Personal Aliases
+### Personal Aliases & Functions
 
-Create custom aliases that won't be committed to git:
+Create custom configurations that won't be committed:
 
 ```bash
 mkdir -p ~/.dotfiles-custom/shell
 vim ~/.dotfiles-custom/shell/.aliases
 ```
 
-### Project-Specific Environment Variables
+These files are automatically loaded by `.zshrc` if they exist.
 
-Use direnv to automatically load environment variables per project:
+### Project-Specific Variables
+
+Use `direnv` for automatic environment loading:
 
 ```bash
 cd my-project
@@ -216,158 +211,92 @@ echo 'export DEBUG=true' > .envrc
 direnv allow
 ```
 
-Variables are automatically loaded when you enter the directory and unloaded when you leave.
+Variables load when you enter the directory and unload when you leave.
 
-## Agent Skills
+---
 
-Agent Skills is an open ecosystem for extending Claude Code with community-created skill packages. Skills provide specialized knowledge and capabilities for various frameworks and tools.
+## Post-Installation
 
-### Pre-installed Skills
+1. **Install font**: Double-click `config/fonts/Menlo-Powerline.otf`
+2. **Import theme**: In iTerm2, import `config/iterm/Solarized Dark Corrected.itermcolors`
+3. **Restore settings** (optional): Run `mackup restore` if you have backups
+4. **Migrate history** (upgrading only): Run `migration/migrate-z-to-zoxide.sh` if you have `~/.z`
 
-The installation automatically adds these community skills:
-
-**Development & Design:**
-- `vercel-labs/agent-skills` - Web design guidelines and React best practices
-- `anthropics/skills` - Frontend design and skill creation tools
-- `vercel-labs/agent-browser` - Browser automation capabilities
-
-**Mobile Development:**
-- `expo/skills` - React Native development with Expo
-- `callstackincubator/agent-skills` - React Native performance best practices
-
-**Marketing:**
-- `coreyhaines31/marketingskills` - Copywriting and programmatic SEO
-
-### Custom Skills
-
-Your custom skills are stored in `config/claude/skills/` and include:
-- `ray-skill` - Ray debugging integration
-- `fix-github-issue` - GitHub issue automation
-- `convert-issue-to-discussion` - GitHub workflow helpers
-
-These are managed through your dotfiles and synced across machines.
-
-### Adding More Skills
-
-Browse available skills at [skills.sh](https://skills.sh) and add them anytime:
-
-```bash
-npx skills add <owner/repo>
-```
-
-## Post-Installation Steps
-
-1. **Install fonts**: Double-click `config/fonts/Menlo-Powerline.otf` to install
-
-2. **Import terminal theme**: In iTerm2, import `config/iterm/Solarized Dark Corrected.itermcolors`
-
-3. **Verify installation**: Run `bin/doctor` to check everything is working
-
-4. **Restore settings** (optional): If you have Mackup backups, run `mackup restore`
-
-5. **Migrate directory history** (upgrading only): If you have `~/.z` from old setup, run `migration/migrate-z-to-zoxide.sh`
+---
 
 ## Troubleshooting
 
-### Shell is slow
+### Shell Startup is Slow
 
-Try the no-Oh-My-Zsh version for 4x faster startup:
+The default configuration (~50ms) is already fast. If using the Oh My Zsh variant:
 
 ```bash
-ln -sf ~/.dotfiles/shell/.zshrc.no-omz ~/.zshrc
+ln -sf ~/.dotfiles/home/.zshrc ~/.zshrc
 exec zsh
 ```
 
-### Command not found after installation
+### Command Not Found
 
 ```bash
-exec zsh            # Reload shell
-bin/doctor          # Check what's missing
-mise doctor         # Verify mise installation
+exec zsh        # Reload shell
+bin/doctor      # Check what's missing
 ```
 
-### Starship prompt not showing
+### Starship Prompt Not Showing
 
 ```bash
-starship --version  # Verify installation
-which starship      # Check location
-echo $STARSHIP_CONFIG  # Should point to config/starship.toml
+starship --version
+echo $STARSHIP_CONFIG    # Should point to config/starship.toml
 ```
 
-### mise not switching versions
+### fnm Not Switching Versions
 
 ```bash
-mise doctor         # Check for issues
-mise current        # Show active versions
-mise list           # Show installed versions
+fnm --version
+fnm current
+fnm list
 ```
 
-## Key Features Comparison
+---
 
-### Tool Replacements
+## Tool Comparisons
 
-| Old Tool | New Tool | Improvement |
-|----------|----------|-------------|
-| Oh My Zsh themes | Starship | 10x faster, highly customizable |
-| z.sh / autojump | zoxide | Smarter ranking, Rust-based speed |
-| nvm, fnm, rbenv | mise | Single tool for all languages |
+| Old Tool | New Tool | Why Better |
+|----------|----------|------------|
+| Oh My Zsh themes | Starship | 10x faster, cross-shell compatible |
+| z.sh / autojump | zoxide | Smarter frecency algorithm, Rust speed |
+| nvm | fnm | 40x faster, simpler, Rust-based |
 | cat | bat | Syntax highlighting, git integration |
-| ls | eza | Icons, colors, git status |
+| ls | eza | Icons, tree view, git status |
 | grep | ripgrep | 5-10x faster, respects .gitignore |
-| find | fd | Faster, simpler syntax |
-| diff | delta | Side-by-side, syntax highlighting |
+| find | fd | Simpler syntax, 10x faster |
+| diff | delta | Side-by-side diffs, syntax highlighting |
 
-### Installation Improvements
+---
 
-**Before**
-- 207 lines of installation script
-- 50+ individual brew install commands
-- Separate bootstrap and installscript files
-- Manual version checking
-- No health check or update mechanism
+## Utilities
 
-**After**
-- 155 lines (25% reduction)
-- Single unified `bin/install` script
-- Declarative Brewfile (including Claude Code)
-- Automatic health checks with `bin/doctor`
-- One-command updates with `bin/update`
-- Standalone Claude Code installer
-- Agent skills pre-installed
-- Optional performance configuration
+The `bin/` directory contains helper scripts:
 
-## What Gets Installed
+- **install** - Main installation script (idempotent, safe to re-run)
+- **install-claude-code** - Standalone Claude Code installer
+- **update** - Update dotfiles, Homebrew, npm, and Composer packages
+- **doctor** - Health check and diagnostic tool
 
-### Core Tools
+---
 
-node, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
+## Migration Notes
 
-### Modern CLI Tools
+If upgrading from an older setup:
 
-starship, zoxide, bat, eza, ripgrep, fd, git-delta, mise, fzf, direnv
+1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
+2. **Oh My Zsh**: The default config is now native Zsh. Oh My Zsh variant available at `home/.zshrc.with-omz`
+3. **Version managers**: fnm replaces nvm/fnm, Homebrew manages PHP (no more compilation)
 
-### QuickLook Plugins
-
-qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
-
-### Global npm Packages
-
-aicommits, agent-browser
-
-### Global Composer Packages
-
-laravel/envoy, spatie/phpunit-watcher, laravel/valet
-
-### PHP Extensions
-
-imagick, memcached, xdebug, redis
-
-### Agent Skills
-
-vercel-labs/agent-skills (web design, React), anthropics/skills (frontend design), expo/skills (React Native), vercel-labs/agent-browser (browser automation), coreyhaines31/marketingskills (copywriting, SEO), callstackincubator/agent-skills (React Native performance)
+---
 
 ## Credits
 
-Created by Freek Van der Herten. Used by many at Spatie.
+Created by [Freek Van der Herten](https://github.com/freekmurze). Used by many at [Spatie](https://spatie.be).
 
-See Brewfile for a complete list of installed packages.
+See `config/Brewfile` for complete package list.

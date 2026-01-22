@@ -35,7 +35,7 @@ echo ""
 
 # Check modern tools
 info "Checking modern tools..."
-for tool in starship zoxide bat eza rg fd delta mise fzf direnv; do
+for tool in starship zoxide bat eza rg fd delta fnm fzf direnv; do
     if command -v $tool &>/dev/null; then
         check "$tool installed"
     else
@@ -46,30 +46,26 @@ done
 echo ""
 
 # Check version managers
-info "Checking mise..."
-if command -v mise &>/dev/null; then
-    if mise current node &>/dev/null; then
-        check "Node.js: $(mise current node | awk '{print $2}')"
+info "Checking fnm..."
+if command -v fnm &>/dev/null; then
+    if fnm current &>/dev/null; then
+        check "Node.js: $(fnm current)"
     else
-        warn "Node.js not configured in mise"
-        ((WARNINGS++))
-    fi
-
-    if mise current php &>/dev/null; then
-        check "PHP: $(mise current php | awk '{print $2}')"
-    else
-        warn "PHP not configured in mise"
-        ((WARNINGS++))
-    fi
-
-    if mise current ruby &>/dev/null; then
-        check "Ruby: $(mise current ruby | awk '{print $2}')"
-    else
-        warn "Ruby not configured in mise"
+        warn "Node.js not configured in fnm"
         ((WARNINGS++))
     fi
 else
-    fail "mise not installed"
+    fail "fnm not installed"
+    ((ERRORS++))
+fi
+echo ""
+
+# Check PHP
+info "Checking PHP..."
+if command -v php &>/dev/null; then
+    check "PHP: $(php -v | head -n1 | cut -d' ' -f2)"
+else
+    fail "PHP not installed"
     ((ERRORS++))
 fi
 echo ""

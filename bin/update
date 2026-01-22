@@ -31,13 +31,6 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 brew cleanup
 success "Homebrew packages updated"
 
-# Update mise tools
-if command -v mise &>/dev/null; then
-    step "Updating mise tools"
-    mise upgrade
-    success "mise tools updated"
-fi
-
 # Update global npm packages
 step "Updating global npm packages"
 npm update -g

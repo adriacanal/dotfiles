@@ -29,14 +29,14 @@ if command -v claude &>/dev/null; then
 else
     # Try Homebrew first (modern)
     if command -v brew &>/dev/null; then
-        brew install --cask claude-code
+        brew install --cask claude-code || warn "Claude Code installation failed"
     else
         # Fallback to curl installer
         warn "Homebrew not found, using curl installer"
-        curl -fsSL https://claude.ai/install.sh | bash
+        curl -fsSL https://claude.ai/install.sh | bash || warn "Claude Code installation failed"
     fi
 fi
-success "Claude Code installed"
+success "Claude Code processed"
 
 # Check if running from dotfiles repo
 DOTFILES_DIR="$HOME/.dotfiles"
@@ -83,13 +83,13 @@ if ! command -v npx &>/dev/null; then
     warn "Node.js/npx not found, skipping agent skills"
     echo "  Install Node.js to add community skills"
 else
-    npx -y skills add vercel-labs/agent-skills
-    npx -y skills add anthropics/skills
-    npx -y skills add expo/skills
-    npx -y skills add vercel-labs/agent-browser
-    npx -y skills add coreyhaines31/marketingskills
-    npx -y skills add callstackincubator/agent-skills
-    success "Agent skills installed"
+    npx -y skills add vercel-labs/agent-skills || warn "vercel-labs/agent-skills already installed or failed"
+    npx -y skills add anthropics/skills || warn "anthropics/skills already installed or failed"
+    npx -y skills add expo/skills || warn "expo/skills already installed or failed"
+    npx -y skills add vercel-labs/agent-browser || warn "vercel-labs/agent-browser already installed or failed"
+    npx -y skills add coreyhaines31/marketingskills || warn "coreyhaines31/marketingskills already installed or failed"
+    npx -y skills add callstackincubator/agent-skills || warn "callstackincubator/agent-skills already installed or failed"
+    success "Agent skills processed"
 fi
 
 # Done

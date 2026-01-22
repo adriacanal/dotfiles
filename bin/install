@@ -2,7 +2,7 @@
 #
 # Install dotfiles
 
-set -e
+set -e  # Exit on error (but we use || true for optional steps)
 
 # Colors
 BLUE='\033[0;34m'
@@ -39,7 +39,7 @@ touch ~/.hushlogin
 step "Installing Oh My Zsh"
 if [ ! -d ~/.oh-my-zsh ]; then
     rm -rf ~/.oh-my-zsh
-    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --unattended
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh -s -- --unattended || warn "Oh My Zsh installation failed"
 fi
 success "Oh My Zsh installed"
 
@@ -62,7 +62,7 @@ success "Symlinks created"
 # NPM setup
 step "Configuring npm"
 mkdir -p ~/.npm-packages
-npm config set prefix ~/.npm-packages
+npm config set prefix ~/.npm-packages || warn "npm config failed"
 success "npm configured"
 
 # Homebrew
@@ -76,68 +76,46 @@ success "Homebrew installed"
 
 # Install all packages from Brewfile
 step "Installing packages from Brewfile"
-brew bundle --file=~/.dotfiles/config/Brewfile
-success "All packages installed"
+brew bundle --file=~/.dotfiles/config/Brewfile || warn "Some packages failed (likely already installed)"
+success "Brewfile processed"
 
-# mise - version manager
-step "Setting up mise"
-mkdir -p ~/.config/mise
-ln -sf ~/.dotfiles/config/.mise.toml ~/.config/mise/config.toml
-eval "$(mise activate bash)"
-mise use --global node@lts
-mise use --global php@8.4
-mise use --global ruby@latest
-mise install
-success "mise configured"
-
-
-# Composer
-step "Installing Composer"
-if ! command -v composer &>/dev/null; then
-    EXPECTED_CHECKSUM="$(curl -fsSL https://composer.github.io/installer.sig)"
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
-        rm composer-setup.php
-        error "Composer checksum mismatch"
-    fi
-    php composer-setup.php --quiet
-    sudo mkdir -p /usr/local/bin/
-    sudo mv composer.phar /usr/local/bin/composer
-    rm composer-setup.php
-fi
-success "Composer installed"
+# fnm - Node.js version manager
+step "Setting up fnm"
+eval "$(fnm env --use-on-cd)" || warn "fnm activation failed"
+fnm install --lts || warn "fnm install failed"
+fnm use lts-latest || warn "fnm use failed"
+success "fnm configured"
 
 # PHP extensions
 step "Installing PHP extensions"
-pecl install imagick || true
-pecl install memcached || true
-pecl install xdebug || true
-pecl install redis || true
-success "PHP extensions installed"
+pecl install imagick 2>/dev/null || warn "imagick already installed or failed"
+pecl install memcached 2>/dev/null || warn "memcached already installed or failed"
+pecl install xdebug 2>/dev/null || warn "xdebug already installed or failed"
+pecl install redis 2>/dev/null || warn "redis already installed or failed"
+success "PHP extensions processed"
 
 # Global npm packages
 step "Installing global npm packages"
-npm install -g aicommits
-npm install -g agent-browser
-agent-browser install || true
-success "npm packages installed"
+npm install -g aicommits || warn "aicommits already installed or failed"
+npm install -g agent-browser || warn "agent-browser already installed or failed"
+agent-browser install 2>/dev/null || warn "agent-browser setup skipped"
+success "npm packages processed"
 
 # Global Composer packages
 step "Installing global Composer packages"
-composer global require laravel/envoy
-composer global require spatie/phpunit-watcher
-composer global require laravel/valet
-valet install
-success "Composer packages installed"
+composer global require laravel/envoy || warn "envoy already installed or failed"
+composer global require spatie/phpunit-watcher || warn "phpunit-watcher already installed or failed"
+composer global require laravel/valet || warn "valet already installed or failed"
+valet install || warn "valet already installed or failed"
+success "Composer packages processed"
 
 # MySQL
 step "Starting MySQL"
-brew services start mysql
-success "MySQL started"
+brew services start mysql || warn "MySQL already running or failed"
+success "MySQL processed"
 
 # Claude Code setup
-bash ~/.dotfiles/bin/install-claude-code
+bash ~/.dotfiles/bin/install-claude-code || warn "Claude Code setup had issues"
 
 # Done
 echo ""
