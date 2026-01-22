@@ -1,3 +1,10 @@
-shell/.yarnrc
-misc/oh-my-zsh-custom/plugins/
-.claude
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+
+# Local configs
+home/.yarnrc
+.claude/

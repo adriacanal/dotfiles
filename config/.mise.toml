@@ -1,0 +1,33 @@
+# mise (formerly rtx) - Unified version manager configuration
+# Replaces fnm, RVM, rbenv, phpbrew, etc.
+# https://mise.jdx.dev/
+
+[tools]
+# Node.js - use latest LTS version
+node = "lts"
+
+# PHP - version 8.4
+php = "8.4"
+
+# Ruby - version 3.3
+ruby = "3.3"
+
+[settings]
+# Read version from legacy files (.node-version, .ruby-version, etc.)
+legacy_version_file = true
+
+# Automatically install missing versions
+auto_install = true
+
+# Always keep downloaded versions
+always_keep_download = false
+
+# Use all available cores for compilation
+jobs = 4
+
+# Show verbose output during installation
+verbose = false
+
+[env]
+# Environment variables for development
+_.file = ".env"
