@@ -66,9 +66,10 @@ The installation creates symlinks from your home directory to the dotfiles repos
 | Symlink Location | Points To | Purpose |
 |-----------------|-----------|---------|
 | `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with custom agnoster theme) |
+| `~/.gitconfig` | `~/.dotfiles/home/.gitconfig` | Git configuration with delta diff viewer |
+| `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
 | `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
 | `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
-| `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
 | `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
 | `~/.claude/skills` | `~/.dotfiles/config/claude/skills/` | All Claude Code skills (version-controlled) |
 | `~/.claude/agents` | `~/.dotfiles/config/claude/agents/` | All Claude Code agents (version-controlled) |

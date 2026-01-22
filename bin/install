@@ -45,9 +45,8 @@ success "Oh My Zsh installed"
 
 # Git configuration
 step "Configuring Git"
+ln -sf ~/.dotfiles/home/.gitconfig ~/.gitconfig
 ln -sf ~/.dotfiles/home/.global-gitignore ~/.global-gitignore
-git config --global core.excludesfile ~/.global-gitignore
-git config --global push.autoSetupRemote true
 success "Git configured"
 
 # Symlinks
@@ -129,7 +128,6 @@ echo ""
 success "Installation complete!"
 echo ""
 step "Next steps:"
-echo "  • Run health check: bin/doctor"
 echo "  • Configure iTerm2: Set font to 'MesloLGM Nerd Font Mono' and enable Powerline glyphs"
 echo "  • Import Solarized theme: config/iterm/*.itermcolors"
 echo "  • Restore settings: mackup restore (if you have backups)"
