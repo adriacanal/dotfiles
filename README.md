@@ -7,7 +7,7 @@ Personal dotfiles with modern shell tooling, optimized for Laravel/PHP developme
 ## Key Features
 
 - **Custom Agnoster Theme** - Clean powerline prompt with no branch symbols, `•` for changes
-- **Version-Controlled Skills** - All Claude Code skills synced via dotfiles
+- **Version-Controlled Skills & Agents** - All Claude Code skills and agents synced via dotfiles
 - **Fast Tools** - fnm, zoxide, ripgrep, bat, eza (all Rust-based for speed)
 - **No Compilation** - PHP via Homebrew, no more building from source
 - **Nerd Fonts** - Installed automatically via Brewfile for perfect icon support
@@ -78,6 +78,7 @@ The installation creates symlinks from your home directory to the dotfiles repos
 | `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
 | `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
 | `~/.claude/skills` | `~/.dotfiles/config/claude/skills/` | All Claude Code skills (version-controlled) |
+| `~/.claude/agents` | `~/.dotfiles/config/claude/agents/` | All Claude Code agents (version-controlled) |
 | `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
 | `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
 | `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
@@ -205,6 +206,7 @@ curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/instal
 - **Claude Code CLI** - Installed via Homebrew
 - **Custom configuration** - CLAUDE.md with coding guidelines, laravel-php-guidelines.md
 - **Version-controlled skills** - Entire `~/.claude/skills` directory symlinked to dotfiles
+- **Version-controlled agents** - Entire `~/.claude/agents` directory symlinked to dotfiles
 
 ### Skills (Version Controlled)
 
@@ -243,6 +245,16 @@ git push
 ```
 
 Browse more skills at [skills.sh](https://skills.sh)
+
+### Agents (Version Controlled)
+
+All custom agents are stored in `config/claude/agents/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all agents are immediately available.
+
+**Custom Agents:**
+- `laravel-simplifier` - Simplifies and refines PHP/Laravel code for clarity and maintainability
+- `laravel-debugger` - Diagnoses and fixes issues in Laravel applications
+- `laravel-feature-builder` - Implements new features in Laravel applications
+- `task-planner` - Breaks down complex tasks into actionable steps
 
 ---
 
@@ -370,7 +382,8 @@ If upgrading from an older setup:
    - Homebrew manages PHP/Composer (no more compilation or mise)
 4. **Fonts**: Meslo Nerd Font replaces Menlo Powerline (installed via Brewfile)
 5. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
-6. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
+6. **Claude Code Agents**: Now version-controlled in `config/claude/agents/` and symlinked to `~/.claude/agents`
+7. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
 
 ---
 
