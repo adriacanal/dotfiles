@@ -301,50 +301,6 @@ Variables load when you enter the directory and unload when you leave.
 
 ---
 
-## Troubleshooting
-
-### Shell Startup is Slow
-
-The default configuration uses Oh My Zsh with agnoster theme (~200ms). For faster startup (~50ms), switch to Starship:
-
-```bash
-ln -sf ~/.dotfiles/home/.zshrc.starship ~/.zshrc
-exec zsh
-```
-
-### Command Not Found
-
-```bash
-exec zsh        # Reload shell
-bin/doctor      # Check what's missing
-```
-
-### Starship Prompt Not Showing
-
-```bash
-starship --version
-echo $STARSHIP_CONFIG    # Should point to config/starship.toml
-```
-
-### fnm Not Switching Versions
-
-```bash
-fnm --version
-fnm current
-fnm list
-```
-
-### Powerline Arrows Not Showing
-
-If you see broken characters instead of arrows:
-
-1. Install Nerd Font: `brew install --cask font-meslo-lg-nerd-font`
-2. In iTerm2: Preferences → Profiles → Text
-3. Set Font to **MesloLGM Nerd Font Mono**
-4. Enable "Use built-in Powerline glyphs"
-
----
-
 ## Tool Comparisons
 
 | Old Tool | New Tool | Why Better |
