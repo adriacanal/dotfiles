@@ -38,6 +38,9 @@ brew "direnv"
 # Development tools
 cask "claude-code"
 
+# Fonts
+cask "font-meslo-lg-nerd-font"
+
 # QuickLook plugins
 cask "qlcolorcode"
 cask "qlstephen"

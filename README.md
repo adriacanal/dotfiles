@@ -22,18 +22,22 @@ bin/doctor    # Health check and diagnostics
 
 ## What's Included
 
-### Modern Shell Tools
+### Shell & Prompt
 
-**Starship** - Fast, customizable prompt that replaces Oh My Zsh themes
+**Oh My Zsh** - Framework for managing Zsh configuration (with agnoster theme by default)
+**Starship** - Fast alternative prompt (optional, 4x faster startup)
 **zoxide** - Smart directory jumping based on frecency
+**fzf** - Fuzzy finder for files and history
+**direnv** - Automatic environment variables per directory
+
+### Modern CLI Tools
+
 **fnm** - Fast Node.js version manager
 **bat** - Cat with syntax highlighting
 **eza** - Modern ls replacement with icons
 **ripgrep** - Fast grep alternative
 **fd** - Fast find alternative
 **git-delta** - Better git diffs
-**fzf** - Fuzzy finder for files and history
-**direnv** - Automatic environment variables per directory
 
 ### Development Tools
 
@@ -57,7 +61,7 @@ The installation creates symlinks from your home directory to the dotfiles repos
 
 | Symlink Location | Points To | Purpose |
 |-----------------|-----------|---------|
-| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (fast, native) |
+| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with agnoster theme) |
 | `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
 | `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
 | `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
@@ -73,7 +77,12 @@ These files are loaded by `.zshrc` but remain in the dotfiles directory:
 
 ### Alternative Configuration
 
-An alternative Zsh configuration with Oh My Zsh plugins is available at `home/.zshrc.with-omz` (~200ms startup vs ~50ms for the default native config).
+A faster alternative using Starship prompt is available at `home/.zshrc.starship` (~50ms startup vs ~200ms for the default Oh My Zsh config). To switch:
+
+```bash
+ln -sf ~/.dotfiles/home/.zshrc.starship ~/.zshrc
+exec zsh
+```
 
 ---
 
@@ -217,9 +226,16 @@ Variables load when you enter the directory and unload when you leave.
 
 ## Post-Installation
 
-1. **Install font**: Double-click `config/fonts/Menlo-Powerline.otf`
+1. **Configure iTerm2 font**:
+   - Open iTerm2 Preferences (Cmd+,)
+   - Go to Profiles → Text
+   - Change Font to **MesloLGM Nerd Font Mono** (size 12-14)
+   - Enable "Use built-in Powerline glyphs"
+
 2. **Import theme**: In iTerm2, import `config/iterm/Solarized Dark Corrected.itermcolors`
+
 3. **Restore settings** (optional): Run `mackup restore` if you have backups
+
 4. **Migrate history** (upgrading only): Run `migration/migrate-z-to-zoxide.sh` if you have `~/.z`
 
 ---
@@ -228,10 +244,10 @@ Variables load when you enter the directory and unload when you leave.
 
 ### Shell Startup is Slow
 
-The default configuration (~50ms) is already fast. If using the Oh My Zsh variant:
+The default configuration uses Oh My Zsh with agnoster theme (~200ms). For faster startup (~50ms), switch to Starship:
 
 ```bash
-ln -sf ~/.dotfiles/home/.zshrc ~/.zshrc
+ln -sf ~/.dotfiles/home/.zshrc.starship ~/.zshrc
 exec zsh
 ```
 
@@ -290,8 +306,8 @@ The `bin/` directory contains helper scripts:
 If upgrading from an older setup:
 
 1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
-2. **Oh My Zsh**: The default config is now native Zsh. Oh My Zsh variant available at `home/.zshrc.with-omz`
-3. **Version managers**: fnm replaces nvm/fnm, Homebrew manages PHP (no more compilation)
+2. **Prompt**: The default config uses Oh My Zsh with agnoster theme. For a faster alternative, use `home/.zshrc.starship`
+3. **Version managers**: fnm replaces nvm, Homebrew manages PHP (no more compilation)
 
 ---
 
