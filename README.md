@@ -9,7 +9,6 @@ Personal dotfiles with modern shell tooling, optimized for Laravel/PHP developme
 - **Custom Agnoster Theme** - Clean powerline prompt with no branch symbols, `•` for changes
 - **Version-Controlled Skills & Agents** - All Claude Code skills and agents synced via dotfiles
 - **Fast Tools** - fnm, zoxide, ripgrep, bat, eza (all Rust-based for speed)
-- **No Compilation** - PHP via Homebrew, no more building from source
 - **Nerd Fonts** - Installed automatically via Brewfile for perfect icon support
 - **One Command Install** - `bin/install` sets up everything including Claude Code
 
