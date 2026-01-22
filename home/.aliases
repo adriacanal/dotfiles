@@ -56,9 +56,9 @@ alias sudo='sudo '
 # Modern CLI tool aliases (conditional on installation)
 if command -v eza &> /dev/null; then
     alias ls="eza --icons --group-directories-first"
-    alias l="eza -la --icons --group-directories-first --git --header --hyperlink"
-    alias ll="eza -l --icons --group-directories-first --git --header --hyperlink"
-    alias lt="eza --tree --level=2 --icons --git"
+    alias l="eza -la --icons --group-directories-first --hyperlink"
+    alias ll="eza -l --icons --group-directories-first --hyperlink"
+    alias lt="eza --tree --level=2 --icons"
 fi
 
 if command -v bat &> /dev/null; then
