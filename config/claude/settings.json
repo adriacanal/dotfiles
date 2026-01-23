@@ -46,6 +46,7 @@
       "Bash(awk:*)",
       "Bash(cut:*)",
       "Bash(tr:*)",
+      "Bash(open:*)",
       "WebSearch",
       "WebFetch"
     ],
