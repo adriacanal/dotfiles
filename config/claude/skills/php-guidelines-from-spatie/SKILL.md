@@ -3,8 +3,8 @@ name: php-guidelines-from-spatie
 description: Describes PHP and Laravel guidelines provided by Spatie. These rules result in more maintainable, and readable code.
 license: MIT
 metadata:
-author: Spatie
-tags: php, laravel, PHP
+   author: Spatie
+   tags: php, laravel, best practices, coding standards
 ---
 
 ## Core Laravel Principle
@@ -28,39 +28,39 @@ tags: php, laravel, PHP
 - Specify return types including `void`
 - Use short nullable syntax: `?Type` not `Type|null`
 - Document iterables with generics:
-```php
-/** @return Collection<int, User> */
-public function getUsers(): Collection
-```
+  ```php
+  /** @return Collection<int, User> */
+  public function getUsers(): Collection
+  ```
 
 ### Docblock Rules
 - Don't use docblocks for fully type-hinted methods (unless description needed)
 - **Always import classnames in docblocks** - never use fully qualified names:
-```php
-use \Spatie\Url\Url;
-/** @return Url */
-```
+  ```php
+  use \Spatie\Url\Url;
+  /** @return Url */
+  ```
 - Use one-line docblocks when possible: `/** @var string */`
 - Most common type should be first in multi-type docblocks:
-```php
-/** @var Collection|SomeWeirdVendor\Collection */
-```
+  ```php
+  /** @var Collection|SomeWeirdVendor\Collection */
+  ```
 - If one parameter needs docblock, add docblocks for all parameters
 - For iterables, always specify key and value types:
-```php
-/**
-* @param array<int, MyObject> $myArray
-* @param int $typedArgument
-*/
-function someFunction(array $myArray, int $typedArgument) {}
-```
+  ```php
+  /**
+   * @param array<int, MyObject> $myArray
+   * @param int $typedArgument 
+   */
+  function someFunction(array $myArray, int $typedArgument) {}
+  ```
 - Use array shape notation for fixed keys, put each key on it's own line:
-```php
-/** @return array{
-first: SomeClass,
-second: SomeClass
-} */
-```
+  ```php
+  /** @return array{
+     first: SomeClass, 
+     second: SomeClass
+  } */
+  ```
 
 ## Control Flow
 - **Happy path last**: Handle error conditions first, success case last
@@ -72,11 +72,11 @@ second: SomeClass
 ```php
 // Happy path last
 if (! $user) {
-return null;
+    return null;
 }
 
 if (! $user->isActive()) {
-return null;
+    return null;
 }
 
 // Process active user...
@@ -86,13 +86,13 @@ $name = $isFoo ? 'foo' : 'bar';
 
 // Multi-line ternary
 $result = $object instanceof Model ?
-$object->name :
-'A default value';
+    $object->name :
+    'A default value';
 
 // Ternary instead of else
 $condition
-? $this->doSomething()
-: $this->doSomethingElse();
+    ? $this->doSomething()
+    : $this->doSomethingElse();
 ```
 
 ## Laravel Conventions
@@ -119,14 +119,14 @@ $condition
 - Always provide feedback (`$this->comment('All ok!')`)
 - Show progress for loops, summary at end
 - Put output BEFORE processing item (easier debugging):
-```php
-$items->each(function(Item $item) {
-$this->info("Processing item id `{$item->id}`...");
-$this->processItem($item);
-});
-
-$this->comment("Processed {$items->count()} items.");
-```
+  ```php
+  $items->each(function(Item $item) {
+      $this->info("Processing item id `{$item->id}`...");
+      $this->processItem($item);
+  });
+  
+  $this->comment("Processed {$items->count()} items.");
+  ```
 
 ## Strings & Formatting
 
@@ -170,29 +170,29 @@ $failedChecks = $site->checks()->where('status', 'failed')->get();
 ## Validation
 
 - Use array notation for multiple rules (easier for custom rule classes):
-```php
-public function rules() {
-return [
-'email' => ['required', 'email'],
-];
-}
-```
+  ```php
+  public function rules() {
+      return [
+          'email' => ['required', 'email'],
+      ];
+  }
+  ```
 - Custom validation rules use snake_case:
-```php
-Validator::extend('organisation_type', function ($attribute, $value) {
-return OrganisationType::isValid($value);
-});
-```
+  ```php
+  Validator::extend('organisation_type', function ($attribute, $value) {
+      return OrganisationType::isValid($value);
+  });
+  ```
 
 ## Blade Templates
 
 - Indent with 4 spaces
 - No spaces after control structures:
-```blade
-@if($condition)
-Something
-@endif
-```
+  ```blade
+  @if($condition)
+      Something
+  @endif
+  ```
 
 ## Authorization
 
@@ -208,10 +208,10 @@ Something
 - Use plural resource names: `/errors`
 - Use kebab-case: `/error-occurrences`
 - Limit deep nesting for simplicity:
-```
-/error-occurrences/1
-/errors/1/occurrences
-```
+  ```
+  /error-occurrences/1
+  /errors/1/occurrences
+  ```
 
 ## Testing
 
@@ -241,7 +241,7 @@ Something
 - Enums: descriptive name, no prefix (`OrderStatus`, `BookingType`)
 
 ### Migrations
-- IMPORTANT: do not write down methods in migrations, only up methods
+- do not write down methods in migrations, only up methods
 
 ### Code Quality Reminders
 
@@ -252,5 +252,3 @@ Something
 - Avoid `else` statements when possible
 - Use string interpolation over concatenation
 - Always use curly braces for control structures
-
----
