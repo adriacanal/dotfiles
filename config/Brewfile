@@ -35,6 +35,9 @@ brew "git-delta"
 brew "fnm"
 brew "fzf"
 brew "direnv"
+brew "jq"
+brew "yq"
+brew "bottom"
 
 # Development tools
 cask "claude-code"

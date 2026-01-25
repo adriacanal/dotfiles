@@ -41,6 +41,9 @@ bin/install
 - **ripgrep** - Fast grep alternative
 - **fd** - Fast find alternative
 - **git-delta** - Better git diffs
+- **jq** - JSON processor and formatter
+- **yq** - YAML processor and formatter
+- **bottom** - Modern system monitor
 
 ### Development Tools
 
@@ -124,6 +127,22 @@ mfs                 # php artisan migrate:fresh --seed
 nah                 # git reset --hard; git clean -df
 ```
 
+### Data Processing
+
+```bash
+# JSON processing with jq
+curl api.github.com/users/freekmurze | jq
+cat composer.json | jq '.require'
+php artisan tinker --execute="echo json_encode(User::first());" | jq
+
+# YAML processing with yq
+yq '.jobs' .github/workflows/ci.yml
+yq -o json docker-compose.yml
+
+# System monitoring
+btm                 # Modern system monitor (aliased from top/htop)
+```
+
 ### Maintenance Commands
 
 ```bash
@@ -165,7 +184,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 **Complete package list:**
 
 - **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
-- **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, zsh-autosuggestions
+- **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, jq, yq, bottom, zsh-autosuggestions
 - **Fonts**: font-meslo-lg-nerd-font (powerline icons and modern glyphs)
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
@@ -295,6 +314,7 @@ Variables load when you enter the directory and unload when you leave.
 | grep | ripgrep | 5-10x faster, respects .gitignore |
 | find | fd | Simpler syntax, 10x faster |
 | diff | delta | Side-by-side diffs, syntax highlighting |
+| htop | bottom | Better UI, graphs, Rust-based |
 
 ---
 
