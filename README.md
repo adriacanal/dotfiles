@@ -169,7 +169,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 - **Fonts**: font-meslo-lg-nerd-font (powerline icons and modern glyphs)
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
-- **Global npm**: aicommits, agent-browser
+- **Global npm**: agent-browser
 - **Global Composer**: laravel/envoy, spatie/phpunit-watcher, laravel/valet
 
 ---

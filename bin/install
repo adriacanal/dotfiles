@@ -95,7 +95,6 @@ success "PHP extensions processed"
 
 # Global npm packages
 step "Installing global npm packages"
-npm install -g aicommits || warn "aicommits already installed or failed"
 npm install -g agent-browser || warn "agent-browser already installed or failed"
 agent-browser install 2>/dev/null || warn "agent-browser setup skipped"
 success "npm packages processed"
