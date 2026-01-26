@@ -26,8 +26,6 @@ yarn-error.log
 .phpunit-watcher-cache.php
 .phpunit.result.cache
 
-.claude
-
 # Playwright
 .playwright
 .playwright-mcp
