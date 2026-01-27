@@ -1,5 +1,5 @@
 ---
-name: convert-issue-to-discussion
+name: convert-github-issue-to-discussion
 description: Convert GitHub issues to discussions using agent-browser. Use when asked to convert, move, or change an issue to a discussion. Requires agent-browser installed and user to log in via headed browser.
 ---
 
