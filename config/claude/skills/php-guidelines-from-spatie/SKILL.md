@@ -252,3 +252,5 @@ $failedChecks = $site->checks()->where('status', 'failed')->get();
 - Avoid `else` statements when possible
 - Use string interpolation over concatenation
 - Always use curly braces for control structures
+- Always import namespaces with `use` statements — never use inline fully qualified class names (e.g. `\Exception`, `\Illuminate\Support\Facades\Http`)
+- Never use single-letter variable names — use descriptive names (e.g. `$exception` not `$e`, `$request` not `$r`)
