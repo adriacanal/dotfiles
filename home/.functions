@@ -102,6 +102,10 @@ function scheduler() {
    done
 }
 
+function claude-yolo() {
+  claude --dangerously-skip-permissions "$@"
+}
+
 function git-prune-local() {
   echo "Finding local branches without remote counterparts..."
   
