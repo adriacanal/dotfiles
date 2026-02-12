@@ -34,16 +34,8 @@
 
 CURRENT_BG='NONE'
 
-case ${SOLARIZED_THEME:-dark} in
-    light)
-      CURRENT_FG=${CURRENT_FG:-'white'}
-      CURRENT_DEFAULT_FG=${CURRENT_DEFAULT_FG:-'white'}
-      ;;
-    *)
-      CURRENT_FG=${CURRENT_FG:-'black'}
-      CURRENT_DEFAULT_FG=${CURRENT_DEFAULT_FG:-'default'}
-      ;;
-esac
+CURRENT_FG=${CURRENT_FG:-16}
+CURRENT_DEFAULT_FG=${CURRENT_DEFAULT_FG:-'default'}
 
 ### Theme Configuration Initialization
 #
@@ -298,9 +290,11 @@ prompt_hg() {
 prompt_dir() {
   if [[ $AGNOSTER_GIT_INLINE == 'true' ]] && $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     # Git repo and inline path enabled, hence only show the git root
-    prompt_segment "$AGNOSTER_DIR_BG" "$AGNOSTER_DIR_FG" "$(git_toplevel | sed "s:^$HOME:~:")"
+    prompt_segment "$AGNOSTER_DIR_BG" "$AGNOSTER_DIR_FG"
+    echo -n "$(git_toplevel | sed "s:^$HOME:~:")"
   else
-    prompt_segment "$AGNOSTER_DIR_BG" "$AGNOSTER_DIR_FG" '%~'
+    prompt_segment "$AGNOSTER_DIR_BG" "$AGNOSTER_DIR_FG"
+    echo -n '%~'
   fi
 }
 
