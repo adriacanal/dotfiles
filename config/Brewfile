@@ -41,6 +41,7 @@ brew "bottom"
 
 # Development tools
 cask "claude-code"
+cask "zed"
 
 # Fonts
 cask "font-meslo-lg-nerd-font"

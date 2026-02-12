@@ -78,6 +78,16 @@ The installation creates symlinks from your home directory to the dotfiles repos
 | `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
 | `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
 | `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
+| `~/.config/zed/settings.json` | `~/.dotfiles/config/zed/settings.json` | Zed editor settings |
+| `~/.config/zed/keymap.json` | `~/.dotfiles/config/zed/keymap.json` | Zed custom keybindings |
+
+To manually symlink the Zed configuration (if not using `bin/install`):
+
+```bash
+mkdir -p ~/.config/zed
+ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
+ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
+```
 
 ### Sourced Files
 

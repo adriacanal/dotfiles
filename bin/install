@@ -56,6 +56,9 @@ ln -sf ~/.dotfiles/home/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/home/.vimrc ~/.vimrc
 ln -sf ~/.dotfiles/home/.vim ~/.vim
 ln -sf ~/.dotfiles/macos/.mackup.cfg ~/.mackup.cfg
+mkdir -p ~/.config/zed
+ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
+ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
 success "Symlinks created"
 
 # NPM setup
