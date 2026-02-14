@@ -6,22 +6,22 @@
   "show_edit_predictions": true,
   "telemetry": {
     "diagnostics": false,
-    "metrics": true
+    "metrics": true,
   },
   "debugger": {
-    "button": false
+    "button": false,
   },
   "search": {
-    "button": false
+    "button": false,
   },
   "diagnostics": {
-    "button": false
+    "button": false,
   },
   "scroll_beyond_last_line": "off",
   "autosave": {
     "after_delay": {
-      "milliseconds": 1000
-    }
+      "milliseconds": 1000,
+    },
   },
   "title_bar": {
     "show_branch_name": true,
@@ -29,14 +29,14 @@
     "show_menus": true,
     "show_sign_in": false,
     "show_onboarding_banner": false,
-    "show_project_items": true
+    "show_project_items": true,
   },
   "status_bar": {
     "cursor_position_button": false,
-    "active_language_button": false
+    "active_language_button": false,
   },
   "edit_predictions": {
-    "provider": "copilot"
+    "provider": "copilot",
   },
   "theme": "One Light",
   "theme_overrides": {
@@ -59,44 +59,44 @@
       "terminal.ansi.bright_magenta": "#6c71c4ff",
       "terminal.ansi.bright_cyan": "#93a1a1ff",
       "terminal.ansi.bright_white": "#fdf6e3ff",
-      "terminal.cursor": "#657b83ff"
-    }
+      "terminal.cursor": "#657b83ff",
+    },
   },
 
   // Typography - matching PhpStorm
   "buffer_font_family": "JetBrains Mono",
   "buffer_font_size": 15.0,
   "buffer_line_height": {
-    "custom": 1.7
+    "custom": 1.7,
   },
   "buffer_font_features": {
-    "liga": true
+    "liga": true,
   },
   "ui_font_size": 14,
 
   // Minimal UI
   "tab_bar": {
-    "show": false
+    "show": false,
   },
   "toolbar": {
     "breadcrumbs": true,
-    "quick_actions": false
+    "quick_actions": false,
   },
   "scrollbar": {
-    "show": "auto"
+    "show": "auto",
   },
   "git": {
     "inline_blame": {
-      "enabled": false
-    }
+      "enabled": false,
+    },
   },
   "gutter": {
     "line_numbers": true,
     "code_actions": true,
-    "folds": true
+    "folds": true,
   },
   "minimap": {
-    "show": "never"
+    "show": "never",
   },
 
   // Editor behavior
@@ -111,31 +111,27 @@
     "font_family": "MesloLGM Nerd Font Mono",
     "font_size": 14,
     "line_height": {
-      "custom": 1.5
+      "custom": 1.5,
     },
     "dock": "bottom",
     "env": {
       "AGNOSTER_DIR_FG": "black",
       "AGNOSTER_GIT_CLEAN_FG": "black",
-      "AGNOSTER_GIT_DIRTY_FG": "black"
-    }
+      "AGNOSTER_GIT_DIRTY_FG": "black",
+    },
   },
 
   // File associations
   "file_types": {
-    "PHP": ["php", "php_cs", "php_cs.dist"]
+    "PHP": ["php", "php_cs", "php_cs.dist"],
   },
 
   // Search exclusions
-  "file_scan_exclusions": [
-    "**/.git",
-    "**/node_modules",
-    "**/bower_components"
-  ],
+  "file_scan_exclusions": ["**/.git", "**/node_modules", "**/bower_components"],
 
   // Inlay hints off (like codeLens off)
   "inlay_hints": {
-    "enabled": false
+    "enabled": false,
   },
 
   // Project panel on the left
@@ -143,22 +139,22 @@
     "hide_root": false,
     "dock": "left",
     "button": false,
-    "auto_reveal_entries": false
+    "auto_reveal_entries": false,
   },
 
   // Hide status bar items
   "outline_panel": {
-    "button": false
+    "button": false,
   },
   "collaboration_panel": {
     "button": false,
-    "dock": "right"
+    "dock": "right",
   },
   "git_panel": {
-    "button": false
+    "button": false,
   },
   "notification_panel": {
-    "button": false
+    "button": false,
   },
   /* Duplicated key auto-commented: "agent": {
     "button": false
@@ -166,18 +162,19 @@
 
   // Disable AI features for minimal UI
   "agent": {
-    "enabled": false
+    "enabled": true,
   },
 
   // Language-specific settings
   "languages": {
     "PHP": {
+      "language_servers": ["intelephense", "!phpactor", "!phptools", "..."],
       "formatter": {
         "external": {
           "command": "./vendor/bin/pint",
-          "arguments": ["{buffer_path}"]
-        }
-      }
-    }
-  }
+          "arguments": ["{buffer_path}"],
+        },
+      },
+    },
+  },
 }
