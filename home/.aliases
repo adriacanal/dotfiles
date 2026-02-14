@@ -2,7 +2,7 @@
 alias phpunit="vendor/bin/phpunit"
 alias a="php artisan"
 alias ar="php artisan remote"
-alias c="composer"
+alias c="claude"
 alias cu="composer update"
 alias cr="composer require"
 alias ci="composer install"
