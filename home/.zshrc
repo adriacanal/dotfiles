@@ -17,7 +17,7 @@ DEFAULT_USER=`whoami`
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git laravel4 laravel5 composer macos vagrant)
+plugins=(git composer macos)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -58,8 +58,6 @@ unset file
 
 # Directory jumping now handled by zoxide (see modern tools section below)
 
-# Alias hub to git
-eval "$(hub alias -s)"
 
 # Sudoless npm https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md
 NPM_PACKAGES="${HOME}/.npm-packages"
@@ -71,7 +69,7 @@ export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
 export PATH=$HOME/.dotfiles/bin:$PATH
 
 # Import ssh keys in keychain
-ssh-add -A 2>/dev/null;
+ssh-add --apple-use-keychain 2>/dev/null;
 
 # Setup xdebug
 export XDEBUG_CONFIG="idekey=VSCODE"
@@ -85,8 +83,6 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH=/usr/local/bin:$PATH
 export PATH="$HOME/.yarn/bin:$PATH"
 
-# do not update all homebrew stuff automatically
-export HOMEBREW_NO_AUTO_UPDATE=1
 
 #export PATH=/Users/Shared/DBngin/postgresql/17.0/bin:$PATH
 
