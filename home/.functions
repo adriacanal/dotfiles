@@ -109,3 +109,7 @@ function claude-yolo() {
 function git-prune-local() {
   git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 }
+
+function clone() {
+  gh repo clone "$1" "${@:2}"
+}
