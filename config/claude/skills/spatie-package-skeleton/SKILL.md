@@ -1,7 +1,6 @@
 ---
 name: spatie-package-skeleton
 description: Guide for creating PHP and Laravel packages using Spatie's package-skeleton-laravel and package-skeleton-php templates. Use when the user wants to create a new PHP or Laravel package, scaffold a package. Also use when building customizable packages — covers proven patterns for extensibility (events, configurable models/jobs, action classes) instead of config option creep.
-
 metadata:
   author: Spatie
   tags:
@@ -12,89 +11,123 @@ metadata:
     - open-source
 ---
 
-# Creating PHP & Laravel Packages with Spatie Skeletons
+# Creating a Laravel Package with Spatie's Skeleton
 
-## Choosing the Right Skeleton
+## Prerequisites
 
-| Use case | Skeleton | Repo |
-|----------|----------|------|
-| Laravel-specific package (service providers, facades, config, migrations, commands, views) | `package-skeleton-laravel` | `spatie/package-skeleton-laravel` |
-| Framework-agnostic PHP package (no Laravel dependency) | `package-skeleton-php` | `spatie/package-skeleton-php` |
+- `gh` CLI installed and authenticated
+- `php` available in PATH
+- `composer` available in PATH
 
-**Rule of thumb:** If your package needs Laravel's service container, config files, Blade views, migrations, or Artisan commands, use the Laravel skeleton. Otherwise, use the PHP skeleton.
+## Workflow
 
-## Step 1: Create the Repository
+### 1. Gather Package Details
 
-Use GitHub's template feature via `gh`:
+Ask the user for:
+- **Vendor name** (e.g. `spatie`) — the GitHub org or username
+- **Package name** (e.g. `laravel-cool-feature`) — the repo/package name
+- **Package description** — one-liner for composer.json
+- **Visibility** — public or private (default: public)
+
+Use defaults where sensible:
+- Author name: from `git config user.name`
+- Author email: from `git config user.email`
+- Author username: from `gh auth status`
+- Vendor namespace: PascalCase of vendor name (e.g. `Spatie`)
+- Class name: TitleCase of package name without `laravel-` prefix (e.g. `CoolFeature`)
+
+### 2. Create the Repository from Template
 
 ```bash
-# For a Laravel package:
-gh repo create vendor/package-name --template spatie/package-skeleton-laravel --public --clone
-
-# For a PHP package:
-gh repo create vendor/package-name --template spatie/package-skeleton-php --public --clone
+gh repo create <vendor>/<package-name> --template spatie/package-skeleton-laravel --public --clone
+cd <package-name>
 ```
 
-Then `cd` into the new directory.
+If the user wants a private repo, use `--private` instead of `--public`.
 
-## Step 2: Run the Configure Script
+### 3. Configure the Package (Manual Replacement)
+
+**WARNING**: Do NOT pipe stdin to `configure.php`. The script's child processes (`gh auth status`, `git log`, `git config`) consume lines from the piped stdin, causing inputs to shift and produce garbled results. Instead, do the replacements manually:
+
+1. Run `sed` to replace all placeholder strings across the repo:
 
 ```bash
-php ./configure.php
+find . -type f -not -path './.git/*' -not -path './vendor/*' -not -name 'configure.php' -exec sed -i '' \
+  -e 's/:author_name/Author Name/g' \
+  -e 's/:author_username/authorusername/g' \
+  -e 's/author@domain\.com/author@email.com/g' \
+  -e 's/:vendor_name/Vendor Name/g' \
+  -e 's/:vendor_slug/vendorslug/g' \
+  -e 's/VendorName/VendorNamespace/g' \
+  -e 's/:package_slug_without_prefix/package-without-prefix/g' \
+  -e 's/:package_slug/package-name/g' \
+  -e 's/:package_name/package-name/g' \
+  -e 's/:package_description/Package description here/g' \
+  -e 's/Skeleton/ClassName/g' \
+  -e 's/skeleton/package-name/g' \
+  -e 's/migration_table_name/package_without_prefix/g' \
+  -e 's/variable/variableName/g' \
+  {} +
 ```
 
-This interactive script replaces all placeholder values throughout the skeleton files. It will auto-detect sensible defaults from your git config and GitHub CLI.
+**Important**: The order of `-e` flags matters. Replace `:package_slug_without_prefix` before `:package_slug` to avoid partial matches. Replace `Skeleton` (PascalCase) before `skeleton` (lowercase).
 
-### Laravel Skeleton Prompts
-
-| Prompt | Default | Notes |
-|--------|---------|-------|
-| Author name | `git config user.name` | |
-| Author email | `git config user.email` | |
-| Author username | Guessed from git history, `gh auth status`, or remote URL | |
-| Vendor name | Guessed from GitHub org API | |
-| Vendor slug | Lowercase vendor name | Used in Composer name |
-| Vendor namespace | PascalCase vendor | PHP namespace |
-| Package name | Current folder name | |
-| Class name | TitleCase of package name | Main class name |
-| Package description | | One-liner for composer.json |
-| Enable PhpStan? | Yes | Adds Larastan + PHPStan workflow |
-| Enable Laravel Pint? | Yes | Code style fixer |
-| Enable Dependabot? | Yes | Automated dependency updates |
-| Use Ray for debugging? | Yes | Adds `spatie/laravel-ray` as dev dep |
-| Use changelog updater workflow? | Yes | Auto-updates CHANGELOG.md on release |
-
-### PHP Skeleton Prompts
-
-| Prompt | Default | Notes |
-|--------|---------|-------|
-| Author name | `git config user.name` | |
-| Author email | `git config user.email` | |
-| Author username | Guessed from remote URL | |
-| Vendor name | | |
-| Vendor namespace | PascalCase vendor | |
-| Package name | Current folder name | |
-| Class name | TitleCase of package name | |
-| Package description | | |
-| Testing library | pest / phpunit | Choose one |
-| Code style library | pint / php-cs-fixer | Choose one |
-
-### What the Configure Script Does
-
-1. **String replacement** across all files — replaces placeholders like `:vendor_name`, `:package_name`, `Skeleton`, `VendorName`, etc.
-2. **Renames files** — e.g. `src/Skeleton.php` becomes `src/YourClassName.php`
-3. **Removes unused files** based on your choices (e.g. PHPStan files if declined)
-4. **Deletes itself** (`configure.php`) and the setup section from `README.md`
-
-## Step 3: Install Dependencies
+2. Rename the skeleton files:
 
 ```bash
+mv src/Skeleton.php src/ClassName.php
+mv src/SkeletonServiceProvider.php src/ClassNameServiceProvider.php
+mv src/Facades/Skeleton.php src/Facades/ClassName.php
+mv src/Commands/SkeletonCommand.php src/Commands/ClassNameCommand.php
+mv config/skeleton.php config/package-without-prefix.php
+mv database/migrations/create_skeleton_table.php.stub database/migrations/create_package_without_prefix_table.php.stub
+```
+
+3. Delete `configure.php` and run `composer install`:
+
+```bash
+rm configure.php
 composer install
 ```
 
-## Post-Setup: Directory Structure
+Use a longer timeout (5 minutes) for `composer install`.
 
-### Laravel Package
+### 4. Verify Setup
+
+After the script completes:
+
+```bash
+# Check the directory structure
+ls -la src/
+# Verify composer.json looks correct
+cat composer.json | head -20
+# Check tests passed during setup
+```
+
+### 5. Initial Commit and Push
+
+The configure script modifies all files but doesn't commit. Create the initial commit:
+
+```bash
+git add -A
+git commit -m "Configure package skeleton"
+git push -u origin main
+```
+
+### 6. Report to User
+
+Tell the user:
+- The repo URL (e.g. `https://github.com/<vendor>/<package-name>`)
+- The namespace (e.g. `VendorNamespace\ClassName`)
+- Key files to start editing:
+  - `src/<ClassName>.php` — main package class
+  - `src/<ClassName>ServiceProvider.php` — service provider
+  - `config/<package-slug>.php` — configuration
+  - `tests/` — test directory
+
+## Post-Setup Reference
+
+### Directory Structure
 
 ```
 src/
@@ -115,167 +148,39 @@ tests/
   Pest.php                         # Pest config binding TestCase
 ```
 
-### PHP Package
+### Service Provider Configuration
 
-```
-src/
-  YourClassClass.php    # Main class (note: the skeleton appends "Class" to the name)
-tests/
-  ArchTest.php          # Architecture tests (Pest only)
-  ExampleTest.php       # Starter test
-  Pest.php              # Pest config (if Pest chosen)
-```
-
-## Key Files to Edit First
-
-### Laravel Package
-
-**1. Service Provider** (`src/YourClassServiceProvider.php`):
-Uses `spatie/laravel-package-tools`. Configure what your package provides:
+Uses `spatie/laravel-package-tools`:
 
 ```php
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-
-class YourClassServiceProvider extends PackageServiceProvider
+public function configurePackage(Package $package): void
 {
-    public function configurePackage(Package $package): void
-    {
-        $package
-            ->name('your-package')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_your_package_table')
-            ->hasCommand(YourClassCommand::class);
-    }
+    $package
+        ->name('your-package')
+        ->hasConfigFile()
+        ->hasViews()
+        ->hasMigration('create_your_package_table')
+        ->hasCommand(YourClassCommand::class);
 }
 ```
 
-Remove any methods you don't need (e.g. `->hasViews()` if you have no views, `->hasCommand()` if no commands).
+Remove methods you don't need. Delete corresponding directories/files too:
 
-**2. Main class** (`src/YourClass.php`): Implement your package's core logic.
+- No database? Delete `database/` and remove `->hasMigration()`
+- No commands? Delete `src/Commands/` and remove `->hasCommand()`
+- No views? Delete `resources/views/` and remove `->hasViews()`
+- No facade? Delete `src/Facades/` and remove facade alias from `composer.json` `extra.laravel.aliases`
+- No config? Delete `config/` and remove `->hasConfigFile()`
 
-**3. Config file** (`config/your-package.php`): Add your configuration options.
-
-**4. Migration stub** (`database/migrations/`): Define your table schema or delete if not needed.
-
-**5. Command** (`src/Commands/YourClassCommand.php`): Implement or delete if not needed.
-
-**6. Facade** (`src/Facades/YourClass.php`): Already wired up. Only modify if the facade should resolve a different class.
-
-### PHP Package
-
-**1. Main class** (`src/YourClassClass.php`): Rename and implement. Consider renaming to drop the "Class" suffix if it reads awkwardly.
-
-## Delete What You Don't Need
-
-The skeletons include everything. After running configure, delete files you won't use:
-
-- **No database?** Delete `database/` directory and remove `->hasMigration()` from the service provider
-- **No commands?** Delete `src/Commands/` and remove `->hasCommand()` from the service provider
-- **No views?** Delete `resources/views/` and remove `->hasViews()` from the service provider
-- **No facade?** Delete `src/Facades/` and remove the facade alias from `composer.json`'s `extra.laravel.aliases`
-- **No config?** Delete `config/` and remove `->hasConfigFile()` from the service provider
-
-## Testing
+### Testing
 
 ```bash
-# Run tests
-composer test
-
-# Run code style fixer
-composer format
-
-# Run static analysis (Laravel skeleton with PhpStan enabled)
-composer analyse
+composer test       # Run tests
+composer format     # Run code style fixer
+composer analyse    # Run static analysis
 ```
 
-The Laravel skeleton uses **Pest** with **Orchestra Testbench** for testing in a simulated Laravel environment. The `TestCase.php` base class:
-- Registers your service provider
-- Sets up an in-memory SQLite database
-- Configures factory discovery
-
-The PHP skeleton uses your chosen test framework (Pest or PHPUnit) directly.
-
-## GitHub Actions (CI)
-
-Both skeletons include workflows for:
-- **Running tests** — matrix of PHP versions, dependency strategies (lowest/stable), and OS (ubuntu/windows)
-- **Code style fixing** — auto-commits fixes via Pint or CS Fixer
-- **Dependabot auto-merge** — auto-merges minor/patch dependency updates
-
-The Laravel skeleton additionally includes:
-- **PHPStan** workflow (if enabled)
-- **Changelog updater** (if enabled) — auto-updates CHANGELOG.md when a GitHub release is created
-
-## composer.json Essentials
-
-After setup, verify these fields in `composer.json`:
-- `name`: `vendor/package-name`
-- `description`: Clear one-liner
-- `require.php`: Minimum PHP version (default `^8.4`)
-- `require.illuminate/contracts`: Laravel version constraints (default `^11.0|^12.0`)
-- `extra.laravel.providers`: Auto-discovery of your service provider
-- `extra.laravel.aliases`: Auto-discovery of your facade
-
-## README
-
-The skeleton provides a good README template. Update these sections:
-- Installation instructions (already templated)
-- Usage examples with actual code
-- API documentation
-- Testing instructions
-
-## Common Patterns
-
-### Registering Bindings in Service Provider
-
-For complex packages, override `packageRegistered()` or `packageBooted()`:
-
-```php
-public function packageRegistered(): void
-{
-    $this->app->singleton(YourClass::class, function () {
-        return new YourClass(config('your-package'));
-    });
-}
-```
-
-### Publishing Assets
-
-`spatie/laravel-package-tools` handles publishing. Users install with:
-
-```bash
-# Publish config
-php artisan vendor:publish --tag="your-package-config"
-
-# Publish migrations
-php artisan vendor:publish --tag="your-package-migrations"
-
-# Publish views
-php artisan vendor:publish --tag="your-package-views"
-```
-
-### Adding More Commands
-
-Register additional commands in the service provider:
-
-```php
-$package
-    ->hasCommands([
-        FirstCommand::class,
-        SecondCommand::class,
-    ]);
-```
-
-### Adding Routes
-
-```php
-$package->hasRoute('web');
-// Loads routes/web.php from your package
-```
-
-### Adding Installable Command
+### Adding an Install Command
 
 ```php
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -289,185 +194,202 @@ $package->hasInstallCommand(function (InstallCommand $command) {
 });
 ```
 
-## Proven Package Patterns: Customizability
+## API Design Principles
 
-These patterns apply to both packages and projects. The core principle: **avoid adding tiny config options**. Instead, give users full control by letting them extend classes and override behavior.
+- **Optimize for easy usage.** The API exposed to users should be as simple as possible. Every public method, facade call, and middleware should feel obvious and require minimal setup.
+- **Use well-named methods.** Method names should be intuitive and self-documenting. Prefer descriptive names over terse ones — the user should understand what a method does without reading its implementation. Use verb-first method names (`clear()`, `forget()`, `save()`).
+- **Follow Spatie PHP/Laravel guidelines.** All code must follow the conventions described in the `php-guidelines-from-spatie` skill.
 
-### Anti-Pattern: Config Option Creep
+## Package patters
 
-Don't keep adding small config options for every customization request:
+### Fluent/Chainable APIs
+
+Builder-style classes where every setter returns `$this`. Users should be able to chain configuration calls naturally.
 
 ```php
-// DON'T: This escalates quickly and becomes unmanageable
-return [
-    'log_transformers' => [
-        'enabled' => true,
-        'start_message' => 'Transforming starting',
-        'end_message' => 'Transformer ended',
-        'log_level' => 'info',
-        'log_channel' => 'transformer',
-    ],
-    'model_connection_name' => 'default',
-    'model_table_name' => 'my_table',
-    'enable_soft_deletes' => true,
-    'job_queue_name' => 'default',
-    'extra_http_headers' => [],
-];
+Pdf::view('invoice', $data)->format('a4')->landscape()->save('invoice.pdf');
 ```
 
-Problems: difficult to manage, confusing for users, not fun to maintain or review.
+### Sensible Defaults
 
-### Pattern 1: Use Events Instead of Logging/Hook Config Options
+The package should work well out of the box with zero configuration. Only require explicit setup for non-standard use cases. Provide safe defaults in the config file and apply them when values aren't explicitly set.
 
-When users want to add behavior at certain points (logging, notifications, etc.), fire events and let them listen:
+### Facade + Factory for Clean State
 
-```php
-// In your package code:
-event(new TransformerStarting($transformer, $url));
-
-$transformer->transform();
-
-event(new TransformerEnded($transformer, $url, $result));
-```
-
-Users can listen to these events to add any behavior they want:
+Back facades with a factory that creates a fresh builder per call to prevent state bleed between requests.
 
 ```php
-Event::listen(function (TransformerStarting $event) {
-    Log::info("Transformer {$event->transformer->type()} starting…");
-});
-```
-
-This replaces any need for config options around logging, notifications, or side effects.
-
-### Pattern 2: Register Models in the Config File
-
-Instead of adding config options for connection name, table name, soft deletes, etc., let users specify their own model class:
-
-```php
-// In config file:
-return [
-    /*
-     * The model that stores the transformation results.
-     *
-     * You can use your own model by extending the default model.
-     */
-    'model' => Spatie\AiTransformer\Models\TransformationResult::class,
-];
-```
-
-Users extend the model to customize anything:
-
-```php
-class CustomTransformationResult extends TransformationResult
-{
-    use SoftDeletes;
-
-    protected $connection = 'custom_connection';
+// Factory intercepts calls via __call() to create fresh builder instances
+class PdfFactory {
+    public function __call($method, $parameters) {
+        return (clone $this->builder)->$method(...$parameters);
+    }
 }
 ```
 
-And specify it in config:
+### Enums Over Strings
+
+Use PHP enums for any fixed set of options instead of string constants. This gives type safety and IDE support.
+
+### Value Objects for Options
+
+Group related settings into small readonly classes (like `PdfOptions`, `ScreenshotOptions`) rather than passing many loose parameters between layers.
+
+### Descriptive Exception Classes
+
+Name exceptions after what went wrong and provide static factory methods for specific scenarios with helpful error messages:
 
 ```php
-'model' => App\Models\CustomTransformationResult::class,
+class CouldNotGeneratePdf extends Exception
+{
+    public static function browsershotNotInstalled(): static
+    {
+        return new static('To use Browsershot, install it via `composer require spatie/browsershot`.');
+    }
+}
 ```
 
-**Important:** In your package code, always resolve the model from config rather than referencing the class directly:
+### Traits for Cross-Cutting Concerns
+
+Use `Conditionable` (for `when()`/`unless()` chaining), `Macroable` (for runtime extension), and `Dumpable` (for debugging) on builder classes.
+
+### Small Interfaces for Extensibility
+
+Define interfaces for components users might want to swap. Keep them small — one or two methods is ideal:
 
 ```php
-// DON'T:
-TransformationResult::find($id);
+interface PdfDriver {
+    public function generatePdf(string $html, ...): string;
+    public function savePdf(string $html, ..., string $path): void;
+}
+```
 
-// DO:
+### Config-Driven Class Bindings
+
+Let users swap implementations via config rather than requiring service provider overrides:
+
+```php
+// config/your-package.php
+'driver' => env('LARAVEL_PDF_DRIVER', 'browsershot'),
+'cache_profile' => App\CacheProfiles\CustomCacheProfile::class,
+'hasher' => App\Hashers\CustomHasher::class,
+```
+
+### Testing Fakes with Rich Assertions
+
+Provide a `::fake()` method on the facade that swaps in a fake builder. Track calls and offer assertion methods:
+
+```php
+Pdf::fake();
+// ... code that generates PDFs ...
+Pdf::assertSaved(fn ($pdf, $path) => $path === 'invoice.pdf');
+Pdf::assertQueued();
+Pdf::assertNotQueued();
+```
+
+### Events at Key Moments
+
+Fire events for important lifecycle moments so users can hook into the workflow without modifying package code.
+
+### Anti-Pattern: Config Option Creep
+
+Don't add small config options for every customization request. Instead, give users full control via class extension.
+
+### Pattern: Events Instead of Hook Config Options
+
+Fire events and let users listen:
+
+```php
+event(new TransformerStarting($transformer, $url));
+$transformer->transform();
+event(new TransformerEnded($transformer, $url, $result));
+```
+
+### Pattern: Configurable Models
+
+Let users specify their own model class in config:
+
+```php
+// config
+'model' => Spatie\Package\Models\Result::class,
+
+// In package code — always resolve from config:
 $model = config('your-package.model');
 $model::find($id);
 ```
 
-### Pattern 3: Register Jobs in the Config File
+### Pattern: Configurable Jobs
 
-Instead of adding config options for queue name, timeout, encryption, etc., let users specify their own job class:
+Let users specify their own job class in config:
 
 ```php
-// In config file:
+'process_job' => Spatie\Package\Jobs\ProcessJob::class,
+```
+
+### Pattern: Action Classes
+
+Wrap small pieces of functionality in action classes registered in config:
+
+```php
+'actions' => [
+    'fetch_content' => Spatie\Package\Actions\FetchContentAction::class,
+],
+```
+
+Users override by extending and registering their custom action.
+
+### Queued Operations with Callbacks
+
+For expensive operations, provide `saveQueued()` that returns a wrapper around `PendingDispatch` with `then()`/`catch()` callbacks:
+
+```php
+Pdf::view('invoice', $data)
+    ->saveQueued('invoice.pdf')
+    ->then(fn ($path) => /* success */)
+    ->catch(fn ($e) => /* failure */)
+    ->onQueue('pdfs');
+```
+
+### Consistent Naming Conventions
+
+- Suffix event classes with `Event`
+- Suffix notification classes with `Notification`
+- Suffix config data classes with `Config`
+- Use `{Service}Driver` for driver implementations
+- Use `Could Not...` for exception classes
+- Use `Fake` prefix for test doubles
+
+### Config File Comments
+
+Always add block comments above each config key or group explaining what it does:
+
+```php
 return [
     /*
-     * The job in which a transformation will be processed.
-     *
-     * You can extend the default job and specify your own job
-     * here to customize the package's behavior.
+     * When disabled, the middleware will not convert any responses.
      */
-    'process_transformer_job' => Spatie\AiTransformer\Jobs\ProcessTransformerJob::class,
-];
-```
+    'enabled' => env('PACKAGE_ENABLED', true),
 
-Users extend the job to customize queue behavior:
-
-```php
-class CustomJob extends ProcessTransformerJob implements ShouldBeEncrypted
-{
-    public $queue = 'my-custom-queue';
-
-    public int $timeout = 120;
-}
-```
-
-### Pattern 4: Use Action Classes for Overridable Behavior
-
-Wrap small pieces of functionality in action classes — single-purpose classes with one method (usually `execute`):
-
-```php
-class FetchUrlContentAction
-{
-    public function execute(string $url): string
-    {
-        return Http::get($url)->body();
-    }
-}
-```
-
-Register all action classes in the config file:
-
-```php
-return [
     /*
-     * The actions that will perform low-level operations of the package.
-     *
-     * You can extend the default actions and specify your own actions here
-     * to customize the package's behavior.
+     * The driver used to perform the operation.
+     * Supported: "local", "cloud"
      */
-    'actions' => [
-        'fetch_url_content' => Spatie\UrlAiTransformer\Actions\FetchUrlContentAction::class,
-        // other actions...
+    'driver' => env('PACKAGE_DRIVER', 'local'),
+
+    'cache' => [
+        /*
+         * How long results should be cached, in seconds.
+         */
+        'ttl' => (int) env('PACKAGE_CACHE_TTL', 3600),
     ],
 ];
 ```
 
-Users override by extending and registering their custom action:
+Use `/* */` block comments (not `//`). Mention supported values, defaults, and any non-obvious behavior. Keep comments concise — one to three lines.
 
-```php
-class CustomFetchUrlContentAction extends FetchUrlContentAction
-{
-    public function execute(string $url): string
-    {
-        return Http::withHeaders(['extra' => 'custom_value'])
-            ->get($url)
-            ->body();
-    }
-}
-```
+### Miscellaneous
 
-Inside the package, resolve actions from config:
-
-```php
-$fetchUrlContentActionClass = config('your-package.actions.fetch_url_content');
-$fetchUrlContentAction = new $fetchUrlContentActionClass;
-$fetchUrlContentAction->execute('https://example.com');
-```
-
-Consider adding a Config helper class to simplify this:
-
-```php
-Config::getActionClass('fetch_url_content')->execute($url);
-```
-
+- do not add `down` methods to migration
+- do not use else statements — return early instead
+- do not use compound if statements — split into multiple ifs or use guard clauses
+- use `protected` visibility over `private`

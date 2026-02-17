@@ -56,6 +56,8 @@ ln -sf ~/.dotfiles/home/.zshrc ~/.zshrc
 ln -sf ~/.dotfiles/home/.vimrc ~/.vimrc
 ln -sf ~/.dotfiles/home/.vim ~/.vim
 ln -sf ~/.dotfiles/macos/.mackup.cfg ~/.mackup.cfg
+mkdir -p ~/bin
+ln -sf ~/.dotfiles/bin/php-format ~/bin/php-format
 mkdir -p ~/.config/zed
 ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
 ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
@@ -104,6 +106,7 @@ success "npm packages processed"
 
 # Global Composer packages
 step "Installing global Composer packages"
+composer global require laravel/pint || warn "pint already installed or failed"
 composer global require laravel/envoy || warn "envoy already installed or failed"
 composer global require spatie/phpunit-watcher || warn "phpunit-watcher already installed or failed"
 composer global require laravel/valet || warn "valet already installed or failed"
