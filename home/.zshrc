@@ -102,3 +102,10 @@ fi
 if command -v fnm &> /dev/null; then
     eval "$(fnm env --use-on-cd)"
 fi
+
+# bun completions
+[ -s "/Users/freek/.bun/_bun" ] && source "/Users/freek/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

@@ -61,6 +61,8 @@ ln -sf ~/.dotfiles/bin/php-format ~/bin/php-format
 mkdir -p ~/.config/zed
 ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
 ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
+mkdir -p ~/.config/ghostty
+ln -sf ~/.dotfiles/config/ghostty/config ~/.config/ghostty/config
 success "Symlinks created"
 
 # NPM setup
@@ -133,8 +135,6 @@ echo ""
 success "Installation complete!"
 echo ""
 step "Next steps:"
-echo "  • Configure iTerm2: Set font to 'MesloLGM Nerd Font Mono' and enable Powerline glyphs"
-echo "  • Import Solarized theme: config/iterm/*.itermcolors"
 echo "  • Restore settings: mackup restore (if you have backups)"
 echo "  • Customize aliases: ~/.dotfiles-custom/shell/.aliases"
 echo ""

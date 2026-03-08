@@ -9,7 +9,6 @@ Personal dotfiles with modern shell tooling, optimized for Laravel/PHP developme
 - **Custom Agnoster Theme** - Clean powerline prompt with no branch symbols, `•` for changes
 - **Version-Controlled Skills & Agents** - All Claude Code skills and agents synced via dotfiles
 - **Fast Tools** - fnm, zoxide, ripgrep, bat, eza (all Rust-based for speed)
-- **Nerd Fonts** - Installed automatically via Brewfile for perfect icon support
 - **One Command Install** - `bin/install` sets up everything including Claude Code
 
 ---
@@ -80,6 +79,7 @@ The installation creates symlinks from your home directory to the dotfiles repos
 | `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
 | `~/.config/zed/settings.json` | `~/.dotfiles/config/zed/settings.json` | Zed editor settings |
 | `~/.config/zed/keymap.json` | `~/.dotfiles/config/zed/keymap.json` | Zed custom keybindings |
+| `~/.config/ghostty/config` | `~/.dotfiles/config/ghostty/config` | Ghostty terminal settings |
 
 To manually symlink the Zed configuration (if not using `bin/install`):
 
@@ -105,7 +105,7 @@ The default configuration uses a customized agnoster theme stored in `oh-my-zsh-
 - No git branch symbol (cleaner look)
 - Uses `•` for unstaged changes instead of `±`
 - Powerline arrows for segment separators
-- Requires Nerd Font with powerline glyphs
+- Requires a font with powerline glyphs
 
 **Git Status Symbols:**
 - `✚` - Staged changes (files added with `git add`)
@@ -195,7 +195,6 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 
 - **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
 - **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, jq, yq, bottom, zsh-autosuggestions
-- **Fonts**: font-meslo-lg-nerd-font (powerline icons and modern glyphs)
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
 - **Global npm**: agent-browser
@@ -299,17 +298,9 @@ Variables load when you enter the directory and unload when you leave.
 
 ## Post-Installation
 
-1. **Configure iTerm2 font**:
-   - Open iTerm2 Preferences (Cmd+,)
-   - Go to Profiles → Text
-   - Change Font to **MesloLGM Nerd Font Mono** (size 12-14)
-   - Enable "Use built-in Powerline glyphs"
+1. **Restore settings** (optional): Run `mackup restore` if you have backups
 
-2. **Import theme**: In iTerm2, import `config/iterm/Solarized Dark Corrected.itermcolors`
-
-3. **Restore settings** (optional): Run `mackup restore` if you have backups
-
-4. **Migrate history** (upgrading only): Run `migration/migrate-z-to-zoxide.sh` if you have `~/.z`
+2. **Migrate history** (upgrading only): Run `migration/migrate-z-to-zoxide.sh` if you have `~/.z`
 
 ---
 
@@ -348,7 +339,7 @@ If upgrading from an older setup:
 3. **Version managers**:
    - fnm replaces nvm for Node.js
    - Homebrew manages PHP/Composer (no more compilation or mise)
-4. **Fonts**: Meslo Nerd Font replaces Menlo Powerline (installed via Brewfile)
+4. **Terminal**: Ghostty replaces iTerm2 (config symlinked from dotfiles)
 5. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
 6. **Claude Code Agents**: Now version-controlled in `config/claude/agents/` and symlinked to `~/.claude/agents`
 7. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
