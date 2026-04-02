@@ -1,6 +1,6 @@
 # My dotfiles
 
-![Terminal](images/terminal.png)
+This repo is forked from [freekmurze/dotfiles](https://github.com/freekmurze/dotfiles) for adapt my preferences on dotfiles. Thank you for this settings [Freek](https://github.com/freekmurze)! There are pretty cool! 🤩
 
 Personal dotfiles with modern shell tooling, optimized for Laravel/PHP development. Features fast startup times, smart directory navigation, and modern CLI tools.
 
@@ -16,7 +16,7 @@ Personal dotfiles with modern shell tooling, optimized for Laravel/PHP developme
 ## Quick Start
 
 ```bash
-git clone git@github.com:freekmurze/dotfiles.git ~/.dotfiles
+git clone git@github.com:adriacanal/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 bin/install
 ```
@@ -77,17 +77,7 @@ The installation creates symlinks from your home directory to the dotfiles repos
 | `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
 | `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
 | `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
-| `~/.config/zed/settings.json` | `~/.dotfiles/config/zed/settings.json` | Zed editor settings |
-| `~/.config/zed/keymap.json` | `~/.dotfiles/config/zed/keymap.json` | Zed custom keybindings |
 | `~/.config/ghostty/config` | `~/.dotfiles/config/ghostty/config` | Ghostty terminal settings |
-
-To manually symlink the Zed configuration (if not using `bin/install`):
-
-```bash
-mkdir -p ~/.config/zed
-ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
-ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
-```
 
 ### Sourced Files
 
@@ -132,7 +122,9 @@ Alt+C               # Fuzzy change directory
 ```bash
 a                   # php artisan
 p                   # Run Pest/PHPUnit tests
-c                   # composer
+ci                  # composer install
+cu                  # composer update
+cr                  # composer require
 mfs                 # php artisan migrate:fresh --seed
 nah                 # git reset --hard; git clean -df
 ```
@@ -141,7 +133,7 @@ nah                 # git reset --hard; git clean -df
 
 ```bash
 # JSON processing with jq
-curl api.github.com/users/freekmurze | jq
+curl api.github.com/users/adriacanal | jq
 cat composer.json | jq '.require'
 php artisan tinker --execute="echo json_encode(User::first());" | jq
 
@@ -209,7 +201,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 Install just Claude Code without the full dotfiles:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/install-claude-code | bash
+curl -fsSL https://raw.githubusercontent.com/adriacanal/dotfiles/main/bin/install-claude-code | bash
 ```
 
 ### What's Included
@@ -334,15 +326,14 @@ The `bin/` directory contains helper scripts:
 
 If upgrading from an older setup:
 
-1. **Directory history**: Run `migration/migrate-z-to-zoxide.sh` to import your `~/.z` data
-2. **Prompt**: The default is now Oh My Zsh with custom agnoster theme
-3. **Version managers**:
+1. **Prompt**: The default is now Oh My Zsh with custom agnoster theme
+2. **Version managers**:
    - fnm replaces nvm for Node.js
    - Homebrew manages PHP/Composer (no more compilation or mise)
-4. **Terminal**: Ghostty replaces iTerm2 (config symlinked from dotfiles)
-5. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
-6. **Claude Code Agents**: Now version-controlled in `config/claude/agents/` and symlinked to `~/.claude/agents`
-7. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
+3. **Terminal**: Ghostty replaces iTerm2 (config symlinked from dotfiles)
+4. **Claude Code Skills**: Now version-controlled in `config/claude/skills/` and symlinked to `~/.claude/skills`
+5. **Claude Code Agents**: Now version-controlled in `config/claude/agents/` and symlinked to `~/.claude/agents`
+6. **Custom Theme**: Custom agnoster theme stored in `oh-my-zsh-custom/themes/`
 
 ---
 

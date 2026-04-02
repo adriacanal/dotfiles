@@ -104,8 +104,20 @@ if command -v fnm &> /dev/null; then
 fi
 
 # bun completions
-[ -s "/Users/freek/.bun/_bun" ] && source "/Users/freek/.bun/_bun"
+[ -s "/Users/nokkerzz/.bun/_bun" ] && source "/Users/nokkerzz/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/nokkerzz/Library/Application Support/Herd/bin/":$PATH
+
+
+# Herd injected PHP 8.4 configuration.
+export HERD_PHP_84_INI_SCAN_DIR="/Users/nokkerzz/Library/Application Support/Herd/config/php/84/"
+
+
+# Herd injected PHP 8.5 configuration.
+export HERD_PHP_85_INI_SCAN_DIR="/Users/nokkerzz/Library/Application Support/Herd/config/php/85/"

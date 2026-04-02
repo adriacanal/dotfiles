@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# Zed passes buffer content on stdin and expects formatted output on stdout.
 # {buffer_path} is passed as $1 for context (file extension, config lookup).
 
 FILE="$1"
-GLOBAL_PINT="/Users/freek/.composer/vendor/bin/pint"
+GLOBAL_PINT="/Users/nokkerzz/.composer/vendor/bin/pint"
 
 # Find project root by walking up from the file's directory
 find_project_root() {

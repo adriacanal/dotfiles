@@ -3,7 +3,6 @@ alias phpunit="vendor/bin/phpunit"
 alias a="php artisan"
 alias ar="php artisan remote"
 alias c="claude"
-alias cy="claude-yolo"
 alias cu="composer update"
 alias cr="composer require"
 alias ci="composer install"
@@ -17,7 +16,6 @@ alias nah='git reset --hard;git clean -df'
 alias pp="php artisan test --parallel"
 alias sshconfig="vi ~/.ssh/config"
 alias copykey='command cat ~/.ssh/id_ed25519.pub 2>/dev/null || command cat ~/.ssh/id_rsa.pub 2>/dev/null | pbcopy'
-alias tunnel='valet share -subdomain=freekmurze -region=eu'
 
 # JavaScript
 alias jest="./node_modules/.bin/jest"
@@ -34,14 +32,8 @@ alias o="open ."
 # List all files colorized in long format
 alias l="ls -laF"
 
-# PhpStorm
-alias phpstorm='open -a ~/Applications/PhpStorm.app "`pwd`"'
-
 # VS Code
 alias vscode='code "`pwd`"'
-
-# Zed
-alias zed='open -a /Applications/Zed.app "`pwd`"'
 
 # Redis
 alias flush-redis="redis-cli FLUSHALL"

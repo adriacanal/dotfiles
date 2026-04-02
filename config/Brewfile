@@ -41,7 +41,6 @@ brew "bottom"
 
 # Development tools
 cask "claude-code"
-cask "zed"
 
 # QuickLook plugins
 cask "qlcolorcode"

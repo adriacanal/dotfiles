@@ -58,9 +58,6 @@ ln -sf ~/.dotfiles/home/.vim ~/.vim
 ln -sf ~/.dotfiles/macos/.mackup.cfg ~/.mackup.cfg
 mkdir -p ~/bin
 ln -sf ~/.dotfiles/bin/php-format ~/bin/php-format
-mkdir -p ~/.config/zed
-ln -sf ~/.dotfiles/config/zed/settings.json ~/.config/zed/settings.json
-ln -sf ~/.dotfiles/config/zed/keymap.json ~/.config/zed/keymap.json
 mkdir -p ~/.config/ghostty
 ln -sf ~/.dotfiles/config/ghostty/config ~/.config/ghostty/config
 success "Symlinks created"
