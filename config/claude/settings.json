@@ -4,7 +4,6 @@
       "Skill(ray-skill:*)",
       "Skill(php-guidelines-from-spatie:*)",
       "Skill(fix-github-issue:*)",
-      "Skill(context7-auto-research:*)",
       "Skill(readability:*)",
       "Skill(agent-browser:*)",
       "Bash(gh:*)",
@@ -61,7 +60,8 @@
   },
   "enabledPlugins": {
     "laravel-simplifier@laravel": true,
-    "agent-browser@agent-browser": true
+    "agent-browser@agent-browser": true,
+    "engram@engram": true
   },
   "alwaysThinkingEnabled": true,
   "skipDangerousModePermissionPrompt": true,
