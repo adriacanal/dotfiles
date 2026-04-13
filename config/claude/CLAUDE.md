@@ -3,13 +3,9 @@
 ## General
 
 Do not tell me I am right all the time. Be critical. We're equals. Try to be neutral and objective.
-
 Do not excessively use emojis.
-
 Prefer using agent-browser skill over using playwright directly.
-
 Don't proactively create documentation files (*.md, README) unless explicitly asked.
-
 Prefer editing existing files over creating new ones.
 
 ## Writing Docs / README
@@ -21,6 +17,20 @@ Never use dashes (— or -) as punctuation in documentation or README files. Rep
 When working with **Laravel/PHP** projects, always use the `php-guidelines-from-spatie` skill. Also read `@laravel-php-guidelines.md` for the full reference.
 
 When working with **frontend/HTML/CSS** tasks, always read the `frontend-design` skill and `web-design-guidelines` skill.
+
+## Security Review
+
+A custom `/security-review` command is avaiable in `.claude/commands/security-review.md`. Run it before commiting to check for vulnerabilities.
+For automated PR reviews, `.github/workflows/security-review.yml`uses Anthropic's Claude Code Security Review action if exists on project. Requires a `CLAUDE_API_KEY` secret in the repo.
+
+## Token Optimization
+
+1. **Use SDD for substantial features** - Sub-agents with fresh context avoid context overload.
+2. **Use skills and the skill registry** - Sub-agents load context from skill files, not from the conversation.
+3. **Use Engram for persistence** - Artifacts retrieved on-demand (~100 tokens per search result).
+4. **Use Laravel Boost via MCP** - Project introspection in real time, no manual explanations needed.
+5. **Be specific in prompts** - Vague requests waste tokens.
+6. **Prefer small, focused diffs** over large rewrites.
 
 ## Using GitHub
 
@@ -35,6 +45,7 @@ When asked to review or merge a pull request, use the `review-pr` skill.
 - Always run `php artisan test` (or `./vendor/bin/pest`) before considering backend work complete.
 - Always run `npm run type-check` and `npm run lint` before considering frontend work complete.
 - Target >85% test coverage for new features.
+- Use Pest for PHP testing.
 
 ---
 
@@ -98,3 +109,20 @@ Every sub-agent starts with **Step 1: Load Skill Registry**. The registry tells 
 Naming convention: sdd/{change-name}/{phase} for SDD artifacts, knowledge/{topic} for general discoveries.
 See .claude/skills/_shared/persistence-contract.md and .claude/skills/_shared/engram-convention.md for full details.
 Without Engram, the system falls back to file-based persistence (`.atl/` directory) or ephemeral mode.
+
+## Agents
+
+### SDD Orchestration (for substantial features)
+
+The SDD workflow uses 9 specialized sub-agents in `.claude/skills/sdd-*/`. See the "Spec-Driven Development" section above.
+
+### Standalone Agents (for focused tasks)
+
+Available in `.claude/agents/`:
+- `laravel-feature-builder.md` - Plan and implement new Laravel features end-to-end.
+- `laravel-debugger.md` - Systematic debugging of Laravel issues.
+- `laravel-simplifier.md` - Refine and simplify PHP/Laravel code for clarity.
+- `task-planner.md` - Break complex tasks into smaller, manageable steps.
+- `release-notes-generator.md` - Generate polished release notes in English from Release Please changelogs.
+
+All standalone agents should also **save discoveries and decisions to Engram** when available.
