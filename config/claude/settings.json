@@ -50,7 +50,8 @@
       "WebSearch",
       "WebFetch",
       "mcp__laravel-boost__*",
-      "mcp__chrome-devtools__*"
+      "mcp__chrome-devtools__*",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('require:', list\\(d['require'].keys\\(\\)\\)\\); print\\('require-dev:', list\\(d.get\\('require-dev', {}\\).keys\\(\\)\\)\\)\")"
     ],
     "defaultMode": "acceptEdits"
   },
@@ -64,6 +65,6 @@
     "engram@engram": true
   },
   "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true
 }
